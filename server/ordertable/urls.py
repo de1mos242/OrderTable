@@ -15,31 +15,28 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
 # Serializers define the API representation.
-from django.contrib.auth.models import User
-from rest_framework import serializers, viewsets, routers
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
-
-
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
+from rest_framework import routers
 
 # Routers provide an easy way of automatically determining the URL conf.
+from rest_framework.schemas import get_schema_view
+from rest_framework_swagger.views import get_swagger_view
+
+from order_events.views import OrderEventViewSet
+from users.views import UserViewSet
+
+schema_view = get_schema_view(title='Pastebin API')
+swagger_schema_view = get_swagger_view(title="Order table API")
+
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'order-events', OrderEventViewSet, 'order-event')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('order_events.urls')),
     url(r'^', include(router.urls)),
+    url(r'^schema/swagger/$', swagger_schema_view),
+    url(r'^schema/$', schema_view),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
+

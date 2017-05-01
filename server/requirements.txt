@@ -1,2 +1,5 @@
 django
 djangorestframework
+coreapi
+django-rest-swagger
+django-cors-headers
