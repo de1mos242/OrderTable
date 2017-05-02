@@ -12,17 +12,19 @@ import { OrdersModule } from './orders/orders.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { BackendModule } from './backend/backend.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    MaterialExtModule,
+    AuthModule,
     BackendModule,
     OrdersModule,
     NavigationModule,
     SharedModule,
-    MaterialExtModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
