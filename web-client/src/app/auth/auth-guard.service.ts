@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
+  //noinspection JSUnusedLocalSymbols
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): boolean {
     return this.checkLogin(state.url);

@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
 import { AuthBackendService } from '../backend/auth-backend.service';
-import { User } from '../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import { UserCredentials } from './user-credentials.model';
 import { UserCredentialsStorageService } from './user-credentials-storage.service';

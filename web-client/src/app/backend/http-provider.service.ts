@@ -27,8 +27,7 @@ export class HttpProviderService {
 
   private getFullUrl(url: string) {
     const baseUrl = this.getBackendEndpointUrl();
-    const resultUrl = baseUrl + url;
-    return resultUrl;
+    return baseUrl + url;
   }
 
   private extractData(res: Response) {
