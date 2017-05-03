@@ -13,12 +13,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { BackendModule } from './backend/backend.module';
 import { AuthModule } from './auth/auth.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    RouterModule,
     MaterialExtModule,
     AuthModule,
     BackendModule,

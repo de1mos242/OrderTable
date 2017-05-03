@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'ordertable.wsgi.application'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = default_headers + (
     'x-xsrf-token',
+    'x-ijt',
 )
 
 # Database
@@ -97,6 +98,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
 
     'PAGE_SIZE': 10,

@@ -20,4 +20,7 @@ export class UserCredentialsStorageService {
     localStorage.setItem(UserCredentialsStorageService.localStorageKey, credentials.toString());
   }
 
+  wipeStoredCredentials() {
+    localStorage.removeItem(UserCredentialsStorageService.localStorageKey);
+  }
 }

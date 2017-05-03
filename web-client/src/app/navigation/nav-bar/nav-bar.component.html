@@ -1,4 +1,9 @@
 <md-toolbar>
     <span>Стол заказов</span>
-    <a routerLink="/orders" routerLinkActive="active">Заказы</a>
+    <a [routerLink]="['/orders']" routerLinkActive="active">Заказы</a>
+    <div *ngIf="currentUser != null">
+      <span >{{currentUser.username}}</span>
+      <button (click)="logout()">Выйти</button>
+    </div>
+    <a *ngIf="currentUser == null" [routerLink]="['/login']">Войти</a>
 </md-toolbar>

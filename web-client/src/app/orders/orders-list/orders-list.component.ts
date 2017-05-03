@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../shared/base-component/base-component.component';
-import { OrderEventService } from '../../backend/order-event.service';
-import { OrderEvent } from '../../models/order-event.model';
+import { OrderService } from '../../backend/order.service';
+import { OrderModel } from '../../models/order-event.model';
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'ot-orders-list',
@@ -10,15 +12,27 @@ import { OrderEvent } from '../../models/order-event.model';
 })
 export class OrdersListComponent extends BaseComponent implements OnInit {
 
-  orders: OrderEvent[] = [];
+  orders: OrderModel[] = [];
 
-  constructor(private orderEventService: OrderEventService) {
+  orderName: string;
+
+  isLoggedIn: boolean;
+
+  constructor(private orderEventService: OrderService, private router: Router, private authService: AuthService) {
     super();
   }
 
   ngOnInit() {
     const sub = this.orderEventService.getList().subscribe(orders => this.orders = orders);
     this.subscribed(sub);
+
+    this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.isLoggedIn = user != null));
+  }
+
+  addOrder() {
+    if (this.orderName != null && this.orderName.length > 0) {
+      this.orderEventService.create(this.orderName).then(order => this.router.navigate([ '/orders', order.id ]));
+    }
   }
 
 }
