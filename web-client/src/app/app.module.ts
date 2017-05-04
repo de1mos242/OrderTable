@@ -14,6 +14,7 @@ import { SharedModule } from './shared/shared.module';
 import { BackendModule } from './backend/backend.module';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
+import { RateCardsModule } from './rate-cards/rate-card.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RouterModule } from '@angular/router';
     AuthModule,
     BackendModule,
     OrdersModule,
+    RateCardsModule,
     NavigationModule,
     SharedModule,
     BrowserAnimationsModule,

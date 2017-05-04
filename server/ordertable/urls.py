@@ -22,7 +22,7 @@ from rest_framework.authtoken import views
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
 
-from order_events.views import OrderEventViewSet
+from order_events.views import OrderEventViewSet, RateCardViewSet, RateCardPositionViewSet
 from users.views import UserViewSet
 
 schema_view = get_schema_view(title='Pastebin API')
@@ -31,6 +31,8 @@ swagger_schema_view = get_swagger_view(title="Order table API")
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'order-events', OrderEventViewSet, 'order-event')
+router.register(r'rate-cards', RateCardViewSet, 'rate-card')
+router.register(r'rate-cards-positions', RateCardPositionViewSet, 'rate-card-position')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

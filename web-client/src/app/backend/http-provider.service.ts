@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, RequestOptionsArgs, Response, Headers } from '@angular/http';
+import { Headers, Http, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { UserCredentialsStorageService } from '../auth/user-credentials-storage.service';
 
@@ -25,6 +25,13 @@ export class HttpProviderService {
                .catch(this.handleError);
   }
 
+  put(url: string, body: object, options?: RequestOptionsArgs): Observable<any> {
+    const fullUrl = this.getFullUrl(url);
+    return this.http.put(fullUrl, body || {}, this.addSecurityHeaders(options))
+               .map(this.extractData)
+               .catch(this.handleError);
+  }
+
   private getFullUrl(url: string) {
     const baseUrl = this.getBackendEndpointUrl();
     return baseUrl + url;
@@ -46,7 +53,7 @@ export class HttpProviderService {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
-    return Observable.throw({errMsg, status});
+    return Observable.throw({ errMsg, status });
   }
 
   private addSecurityHeaders(requestOptions: RequestOptionsArgs) {

@@ -1,9 +1,10 @@
-<md-toolbar>
+<md-toolbar color="primary">
     <span>Стол заказов</span>
-    <a [routerLink]="['/orders']" routerLinkActive="active">Заказы</a>
+    <a md-button [routerLink]="['/orders']" routerLinkActive="active">Заказы</a>
+    <a md-button [routerLink]="['/rate-cards']" routerLinkActive="active">Меню</a>
     <div *ngIf="currentUser != null">
       <span >{{currentUser.username}}</span>
-      <button (click)="logout()">Выйти</button>
+      <button md-button (click)="logout()">Выйти</button>
     </div>
-    <a *ngIf="currentUser == null" [routerLink]="['/login']">Войти</a>
+    <a md-button *ngIf="currentUser == null" [routerLink]="['/login']">Войти</a>
 </md-toolbar>

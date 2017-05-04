@@ -1,0 +1,41 @@
+<form>
+  <md-card fxLayout="row" fxLayoutAlign="center none" fxFlex="60">
+    <md-card-header>
+      <md-card-title>Редактирование меню</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <md-input-container>
+        <input mdInput placeholder="Название меню" [(ngModel)]="rateCard.name" name="card_name"
+               #name="ngModel">
+      </md-input-container>
+      <ul>
+        <li *ngFor="let pos of rateCard?.positions; let idx = index">
+          <md-input-container>
+            <input mdInput placeholder="Название позиции" [(ngModel)]="rateCard?.positions[idx].name" [name]="'edit_name'+idx"
+                   #name="ngModel">
+          </md-input-container>
+          <md-input-container>
+            <input mdInput placeholder="Стоимость позиции" [(ngModel)]="rateCard?.positions[idx].price" [name]="'edit_price'+idx"
+                   #name="ngModel" type="number">
+          </md-input-container>
+          <button md-button (click)="removePosition(idx)">Удалить</button>
+        </li>
+      </ul>
+    </md-card-content>
+
+    <br>
+    <md-input-container>
+      <input mdInput placeholder="Название позиции" [(ngModel)]="newItemName" name="new_name"
+             #name="ngModel">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput placeholder="Стоимость позиции" [(ngModel)]="newItemPrice" name="new_price"
+             #name="ngModel" type="number">
+    </md-input-container>
+    <button md-button (click)="addNewCard()">Добавить</button>
+
+    <md-card-actions>
+      <button md-button type="submit" (click)="onSubmit()">Сохранить</button>
+    </md-card-actions>
+  </md-card>
+</form>

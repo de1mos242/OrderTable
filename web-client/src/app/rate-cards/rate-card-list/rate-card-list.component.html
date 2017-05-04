@@ -1,0 +1,14 @@
+<ul>
+  <li *ngFor="let card of rateCards | async">
+    <a [routerLink]="['/rate-cards', card.id]">{{card.name}} <span>({{card.positions.length}})</span></a>
+  </li>
+</ul>
+
+<form *ngIf="isLoggedIn">
+  <label>Добавить меню</label>
+  <md-input-container>
+    <input mdInput placeholder="Название" [(ngModel)]="rateCardName" name="name"
+           #name="ngModel">
+  </md-input-container>
+  <button mdButton type="submit" (click)="addRateCard()">Добавить</button>
+</form>

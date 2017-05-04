@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MdButtonModule, MdCheckboxModule, MdInputModule, MdSnackBarModule, MdToolbarModule } from '@angular/material';
+import {
+  MdButtonModule, MdButtonToggleModule, MdCheckboxModule, MdInputModule, MdSnackBarModule,
+  MdToolbarModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -7,6 +10,7 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     RouterModule,
+    MdButtonToggleModule,
     MdSnackBarModule,
     FormsModule,
     FlexLayoutModule,
@@ -17,6 +21,7 @@ import { RouterModule } from '@angular/router';
   ],
   exports: [
     RouterModule,
+    MdButtonToggleModule,
     MdSnackBarModule,
     FormsModule,
     FlexLayoutModule,

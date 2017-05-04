@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OrderService } from './order.service';
 import { HttpProviderService } from './http-provider.service';
 import { AuthBackendService } from './auth-backend.service';
+import { RateCardService } from './rate-card.service';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { AuthBackendService } from './auth-backend.service';
   providers: [
     AuthBackendService,
     HttpProviderService,
+    RateCardService,
     OrderService
   ]
 })

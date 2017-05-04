@@ -1,0 +1,9 @@
+<label>{{rateCard?.name}}</label>
+<label>Позиции:</label>
+<ul>
+  <li *ngFor="let pos of rateCard?.positions">
+    <span>{{pos.name}} - {{pos.price | currency:'RUR'}}</span>
+  </li>
+</ul>
+
+<a *ngIf="isLoggedIn" md-button [routerLink]="['/rate-cards', rateCard?.id, 'edit']">Изменить</a>
