@@ -4,6 +4,7 @@ import { OrderService } from '../../backend/order.service';
 import { OrderModel } from '../../models/order-event.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'ot-orders-list',
@@ -12,7 +13,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class OrdersListComponent extends BaseComponent implements OnInit {
 
-  orders: OrderModel[] = [];
+  orders: Observable<OrderModel[]>;
 
   orderName: string;
 
@@ -23,8 +24,7 @@ export class OrdersListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    const sub = this.orderEventService.getList().subscribe(orders => this.orders = orders);
-    this.subscribed(sub);
+    this.orders = this.orderEventService.getList();
 
     this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.isLoggedIn = user != null));
   }

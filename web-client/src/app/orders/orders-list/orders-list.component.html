@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let orderEvent of orders">
+  <li *ngFor="let orderEvent of orders | async">
     <a [routerLink]="['/orders', orderEvent.id]">{{orderEvent.name}}</a></li>
 </ul>
 <form *ngIf="isLoggedIn">
