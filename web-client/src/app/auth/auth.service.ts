@@ -3,16 +3,17 @@ import { AuthBackendService } from '../backend/auth-backend.service';
 import { Observable } from 'rxjs/Observable';
 import { UserCredentials } from './user-credentials.model';
 import { UserCredentialsStorageService } from './user-credentials-storage.service';
-import { Subject } from 'rxjs/Subject';
 import { User } from '../models/user.model';
 
 import 'rxjs/add/operator/toPromise';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthService {
   private currentUserCredentials: UserCredentials = null;
   redirectUrl: string;
-  currentUser: Subject<User> = new Subject<User>();
+  currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private currentUserObservable = this.currentUser.asObservable();
 
   constructor(private authBackendService: AuthBackendService,
               private userCredentialsStorage: UserCredentialsStorageService) {
@@ -29,7 +30,7 @@ export class AuthService {
   tryLogin(username: string, password: string): Observable<boolean> {
     return this.authBackendService.tryLogin(username, password)
                .do(token => this.saveCredentials(username, token))
-               .do(token => this.refreshCurentUser())
+               .do(token => this.refreshCurrentUser())
                .map(data => {
                  return !!data;
                })
@@ -39,16 +40,16 @@ export class AuthService {
   logout() {
     this.currentUserCredentials = null;
     this.userCredentialsStorage.wipeStoredCredentials();
-    this.refreshCurentUser();
+    this.refreshCurrentUser();
   }
 
   onAuthUpdate(): Observable<User> {
-    return this.currentUser.asObservable();
+    return this.currentUserObservable;
   }
 
   private init(): void {
     this.reloadCredentials();
-    this.refreshCurentUser();
+    this.refreshCurrentUser();
   }
 
   private reloadCredentials() {
@@ -58,7 +59,7 @@ export class AuthService {
     }
   }
 
-  private refreshCurentUser() {
+  private refreshCurrentUser() {
     if (this.currentUserCredentials != null) {
       this.authBackendService.getByUsername(this.currentUserCredentials.username).toPromise().then(user => {
         this.currentUser.next(user);
