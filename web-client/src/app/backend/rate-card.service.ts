@@ -15,13 +15,8 @@ export class RateCardService {
     return this.httpProvider.get(RateCardService.resourceUrl).map(this.extractList);
   }
 
-  private extractList(data: any): RateCard[] {
-    const results = data.results || [];
-    return results.map(RateCard.fromJson);
-  }
-
   getById(id: number): Observable<RateCard> {
-    return this.httpProvider.get(RateCardService.resourceUrl + id + '/').map(RateCard.fromJson);
+    return this.httpProvider.get(`${RateCardService.resourceUrl}${id}/`).map(RateCard.fromJson);
   }
 
   create(rateCardName: string) {
@@ -32,8 +27,23 @@ export class RateCardService {
   }
 
   update(rateCard: RateCard) {
-    return this.httpProvider.put(RateCardService.resourceUrl + rateCard.id + '/', rateCard)
+    return this.httpProvider.put(`${RateCardService.resourceUrl}${rateCard.id}/`, rateCard)
                .map(RateCard.fromJson)
                .toPromise();
+  }
+
+  getByOrder(orderId: number): Promise<RateCard[]> {
+    return this.httpProvider.get(RateCardService.resourceUrl, { search: { order_id: orderId } })
+               .map(this.extractList)
+               .toPromise();
+  }
+
+  private extractList(data: any): RateCard[] {
+    const results = data.results || [];
+    return results.map(RateCard.fromJson);
+  }
+
+  getFilteredList(query: object) {
+    return this.httpProvider.get(RateCardService.resourceUrl, { search: query }).map(this.extractList);
   }
 }

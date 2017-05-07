@@ -5,6 +5,7 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import { MaterialExtModule } from '../material-ext/material-ext.module';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderModelResolver } from './order-model-resolver.service';
+import { OrderEditComponent } from './order-edit/order-edit.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { OrderModelResolver } from './order-model-resolver.service';
     OrdersRoutingModule,
     MaterialExtModule
   ],
-  declarations: [ OrdersListComponent, OrderDetailComponent ],
+  declarations: [ OrdersListComponent, OrderDetailComponent, OrderEditComponent ],
   providers: [ OrderModelResolver ]
 })
 export class OrdersModule {

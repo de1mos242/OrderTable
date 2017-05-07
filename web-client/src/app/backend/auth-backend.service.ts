@@ -15,6 +15,6 @@ export class AuthBackendService {
   }
 
   getByUsername(username: string): Observable<User> {
-    return this.httpProviderService.get('/users/by-username/' + username).map(User.fromJson);
+    return this.httpProviderService.get(`/users/by-username/${username}/`).map(User.fromJson);
   }
 }

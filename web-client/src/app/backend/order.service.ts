@@ -23,10 +23,20 @@ export class OrderService {
   }
 
   create(name: string): Promise<OrderModel> {
-    return this.httpProviderService.post(this.resourceUrl, { name }).map(OrderModel.fromJson).toPromise();
+    const order = new OrderModel();
+    order.name = name;
+    order.rateCards = [];
+    return this.httpProviderService.post(this.resourceUrl, order.toJson()).map(OrderModel.fromJson).toPromise();
   }
 
   getOrder(id: number): Observable<OrderModel> {
-    return this.httpProviderService.get(this.resourceUrl + id).map(OrderModel.fromJson);
+    return this.httpProviderService.get(`${this.resourceUrl}${id}/`).map(OrderModel.fromJson);
   }
+
+  update(orderModel: OrderModel): Promise<OrderModel> {
+    return this.httpProviderService.put(`${this.resourceUrl}${orderModel.id}/`, orderModel.toJson())
+               .map(OrderModel.fromJson)
+               .toPromise();
+  }
+
 }

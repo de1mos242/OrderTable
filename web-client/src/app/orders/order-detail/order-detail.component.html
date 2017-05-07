@@ -1,6 +1,13 @@
-<p>
-  {{orderModel.name}}
-</p>
-<p>
-  Создатель: {{orderModel.owner.username}}
-</p>
+<div fxLayout="row" fxLayoutAlign="center none">
+  <md-card>
+    <md-card-header>
+      <md-card-title>{{orderModel.name}}</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      Создатель: {{orderModel.owner.username}}
+    </md-card-content>
+    <md-card-actions>
+      <a *ngIf="isOwner()" md-button [routerLink]="['/orders', orderModel.id, 'edit']">Редактировать</a>
+    </md-card-actions>
+  </md-card>
+</div>
