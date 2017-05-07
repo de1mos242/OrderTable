@@ -3,3 +3,4 @@ djangorestframework
 coreapi
 django-rest-swagger
 django-cors-headers
+django_filters

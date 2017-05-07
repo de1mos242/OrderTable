@@ -27,7 +27,7 @@ class OrderEvent(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100)
     owner = models.ForeignKey('auth.User', related_name='order_events', on_delete=models.CASCADE)
-    rate_cards = models.ManyToManyField(RateCard)
+    rate_cards = models.ManyToManyField(RateCard, related_name='orders')
 
     class Meta:
         ordering = ('-created_at',)

@@ -1,14 +1,18 @@
 from rest_framework import serializers
+from rest_framework.relations import PrimaryKeyRelatedField
 
 from order_events.models import OrderEvent, RateCard, RateCardPosition
+from users.serializers import UserSerializer
 
 
 class OrderEventSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(read_only=True)
+    rate_cards = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=RateCard.objects.all(), required=False)
 
     class Meta:
         model = OrderEvent
         fields = ('id', 'name', 'owner', 'rate_cards')
-        depth = 0
+        depth = 1
 
 
 class RateCardPositionSerializer(serializers.ModelSerializer):
