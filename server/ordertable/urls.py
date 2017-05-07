@@ -21,7 +21,6 @@ from rest_framework import routers
 from rest_framework.authtoken import views
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.views import get_swagger_view
-
 from order_events.views import OrderEventViewSet, RateCardViewSet, RateCardPositionViewSet
 from users.views import UserViewSet
 

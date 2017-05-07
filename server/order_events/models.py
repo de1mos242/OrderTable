@@ -1,16 +1,6 @@
 from django.db import models
 
 
-class OrderEvent(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    name = models.CharField(max_length=100)
-    owner = models.ForeignKey('auth.User', related_name='order_events', on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ('-created_at',)
-
-
 class RateCard(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -30,3 +20,14 @@ class RateCardPosition(models.Model):
 
     class Meta:
         ordering = ('name',)
+
+
+class OrderEvent(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100)
+    owner = models.ForeignKey('auth.User', related_name='order_events', on_delete=models.CASCADE)
+    rate_cards = models.ManyToManyField(RateCard)
+
+    class Meta:
+        ordering = ('-created_at',)
