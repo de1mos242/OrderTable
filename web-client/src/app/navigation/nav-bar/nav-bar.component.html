@@ -2,6 +2,7 @@
     <span>Стол заказов</span>
     <a md-button [routerLink]="['/orders']" routerLinkActive="active">Заказы</a>
     <a md-button [routerLink]="['/rate-cards']" routerLinkActive="active">Меню</a>
+    <div fxFlex></div>
     <div *ngIf="currentUser != null">
       <span >{{currentUser.username}}</span>
       <button md-button (click)="logout()">Выйти</button>

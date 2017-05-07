@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
-  MdButtonModule, MdButtonToggleModule, MdCheckboxModule, MdInputModule, MdSnackBarModule,
+  MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdInputModule, MdSnackBarModule,
   MdToolbarModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
     MdCheckboxModule,
     MdToolbarModule,
     MdInputModule,
+    MdCardModule,
   ],
   exports: [
     RouterModule,
@@ -29,6 +30,7 @@ import { RouterModule } from '@angular/router';
     MdCheckboxModule,
     MdToolbarModule,
     MdInputModule,
+    MdCardModule,
   ],
   declarations: []
 })

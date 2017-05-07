@@ -6,12 +6,14 @@ import { RateCardDetailComponent } from './rate-card-detail/rate-card-detail.com
 import { RateCardResolverService } from './rate-card-resolver.service';
 import { RateCardEditComponent } from './rate-card-edit/rate-card-edit.component';
 import { MaterialExtModule } from '../material-ext/material-ext.module';
+import { MdCardModule } from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialExtModule,
-    RateCardsRoutingModule
+    RateCardsRoutingModule,
+    MdCardModule
   ],
   declarations: [ RateCardListComponent, RateCardDetailComponent, RateCardEditComponent ],
   providers: [ RateCardResolverService ]
