@@ -7,6 +7,7 @@ import { RateCardService } from './rate-card.service';
 import { OrderPositionService } from './order-position.service';
 import { RateCardPositionService } from './rate-card-position.service';
 import { SharedModule } from '../shared/shared.module';
+import { UserService } from './user.service';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [],
   providers: [
     AuthBackendService,
+    UserService,
     HttpProviderService,
     RateCardService,
     OrderService,

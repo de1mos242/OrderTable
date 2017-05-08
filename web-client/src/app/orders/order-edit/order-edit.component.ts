@@ -38,8 +38,7 @@ export class OrderEditComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.subscribed(this.route.data
                         .subscribe((data: { orderModel: OrderModel }) => {
-                          this.orderModel = data.orderModel;
-                          this.refreshRateCards(this.orderModel);
+                          this.onChangedOrderModel(data.orderModel);
                         }));
     this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.currentUser = user));
     this.notLinkedCards = this.searchCardControl.valueChanges.startWith(null)
@@ -47,6 +46,11 @@ export class OrderEditComponent extends BaseComponent implements OnInit {
                               .switchMap(val => this.rateCardService.getFilteredList({
                                 name: val
                               })).map(cards => this.filterAlreadyAdded(cards))
+  }
+
+  private onChangedOrderModel(orderModel: OrderModel) {
+    this.orderModel = orderModel;
+    this.refreshRateCards(this.orderModel);
   }
 
   isOwner() {
@@ -75,6 +79,10 @@ export class OrderEditComponent extends BaseComponent implements OnInit {
   addRateCard(card: RateCard) {
     this.linkedRateCards.push(card);
     this.searchCardControl.patchValue('');
+  }
+
+  onOrderRefreshed(orderModel: OrderModel) {
+    this.onChangedOrderModel(orderModel);
   }
 
   private filterAlreadyAdded(cards: RateCard[]): RateCard[] {

@@ -1,0 +1,15 @@
+<p>Участники:</p>
+<md-list>
+  <md-list-item *ngFor="let participant of participants">
+    <span>{{participant.username}}</span>
+    <button md-button (click)="removeParticipant(participant)">-</button>
+  </md-list-item>
+</md-list>
+
+<p>Добавить участников:</p>
+<md-list>
+  <md-list-item *ngFor="let user of nonParticipantUsers">
+    <span>{{user.username}}</span>
+    <button md-button (click)="addParticipant(user)">+</button>
+  </md-list-item>
+</md-list>

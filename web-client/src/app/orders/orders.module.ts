@@ -7,6 +7,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderModelResolver } from './order-model-resolver.service';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { OrderPositionsEditComponent } from './order-positions-edit/order-positions-edit.component';
+import { OrderParticipantManagerComponent } from './order-participant-manager/order-participant-manager.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { OrderPositionsEditComponent } from './order-positions-edit/order-positi
     OrdersRoutingModule,
     MaterialExtModule
   ],
-  declarations: [ OrdersListComponent, OrderDetailComponent, OrderEditComponent, OrderPositionsEditComponent ],
+  declarations: [ OrdersListComponent, OrderDetailComponent, OrderEditComponent, OrderPositionsEditComponent, OrderParticipantManagerComponent ],
   providers: [ OrderModelResolver ]
 })
 export class OrdersModule {

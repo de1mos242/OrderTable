@@ -25,6 +25,9 @@
             {{ option.name }}
           </md-option>
         </md-autocomplete>
+
+        <ot-order-participant-manager [orderModel]="orderModel"
+                                      (onOrderRefreshed)="onOrderRefreshed"></ot-order-participant-manager>
       </md-card-content>
       <md-card-actions>
         <button md-button type="submit" (click)="onSubmit()">Сохранить</button>
