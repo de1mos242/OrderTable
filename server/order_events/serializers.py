@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import Sum, F
 from rest_framework import serializers
+from rest_framework.fields import CharField
 from rest_framework.relations import PrimaryKeyRelatedField
 
 from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition
@@ -11,10 +12,11 @@ class OrderEventSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     rate_cards = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=RateCard.objects.all(), required=False)
     participants = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=User.objects.all(), required=False)
+    invitation_token = CharField(read_only=True)
 
     class Meta:
         model = OrderEvent
-        fields = ('id', 'name', 'owner', 'rate_cards', 'participants')
+        fields = ('id', 'name', 'owner', 'rate_cards', 'participants', 'invitation_token')
         depth = 1
 
 

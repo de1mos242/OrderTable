@@ -1,6 +1,9 @@
+from uuid import uuid4
+
 from django_filters import rest_framework
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import detail_route
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from order_events.filters import RateCardFilter, OrderPositionFilter, RateCardPositionFilter
@@ -27,6 +30,23 @@ class OrderEventViewSet(viewsets.ModelViewSet):
     def customers_stats(self, request, pk=None):
         serializer = CustomerStatsSerializer(self.get_object())
         return Response({'results': serializer.data})
+
+    @detail_route(methods=['post'])
+    def request_invitation_token(self, request, pk=None):
+        order: OrderEvent = self.get_object()
+        order.invitation_token = uuid4()
+        order.save()
+        return Response({'token': order.invitation_token})
+
+    @detail_route(methods=['put'])
+    def invite(self, request, pk=None):
+        order: OrderEvent = self.get_object()
+        if order.invitation_token == request.data['token']:
+            order.participants.add(request.user)
+            order.save()
+        else:
+            raise PermissionDenied("token not valid")
+        return Response({'result': True})
 
 
 class RateCardViewSet(viewsets.ModelViewSet):

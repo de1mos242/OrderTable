@@ -1,12 +1,18 @@
+import re
+
 from rest_framework import permissions
 from rest_framework.request import Request
 
-from order_events.models import OrderEvent, OrderPosition
+from order_events.models import OrderEvent
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
+            return True
+
+        pattern = re.compile("^/order-events/(\d)+/invite/$")
+        if pattern.match(request.path):
             return True
 
         return obj.owner == request.user
