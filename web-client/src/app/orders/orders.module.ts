@@ -16,7 +16,11 @@ import { InviteGuard } from './invite-guard.service';
     OrdersRoutingModule,
     MaterialExtModule
   ],
-  declarations: [ OrdersListComponent, OrderDetailComponent, OrderEditComponent, OrderPositionsEditComponent, OrderParticipantManagerComponent ],
+  declarations: [ OrdersListComponent,
+                  OrderDetailComponent,
+                  OrderEditComponent,
+                  OrderPositionsEditComponent,
+                  OrderParticipantManagerComponent ],
   providers: [ OrderModelResolver, InviteGuard ]
 })
 export class OrdersModule {

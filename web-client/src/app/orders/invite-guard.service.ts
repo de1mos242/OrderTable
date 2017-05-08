@@ -5,10 +5,11 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angul
 @Injectable()
 export class InviteGuard implements CanActivate {
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot): Promise<boolean>{
+              state: RouterStateSnapshot): Promise<boolean> {
     return this.orderService.inviteParticipant(route.params.id, route.params.token).then(data => true);
   }
 

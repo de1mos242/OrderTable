@@ -12,8 +12,8 @@ import { BaseComponent } from '../../shared/base-component/base-component.compon
   styleUrls: [ './rate-card-list.component.css' ]
 })
 export class RateCardListComponent extends BaseComponent implements OnInit {
-  private rateCards: Observable<RateCard[]>;
-  private rateCardName: string;
+  rateCards: Observable<RateCard[]>;
+  rateCardName: string;
   isLoggedIn: boolean;
 
   constructor(private rateCardService: RateCardService, private router: Router, private authService: AuthService) {
