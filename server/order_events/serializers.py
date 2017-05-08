@@ -10,10 +10,11 @@ from users.serializers import UserSerializer
 class OrderEventSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     rate_cards = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=RateCard.objects.all(), required=False)
+    participants = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=User.objects.all(), required=False)
 
     class Meta:
         model = OrderEvent
-        fields = ('id', 'name', 'owner', 'rate_cards')
+        fields = ('id', 'name', 'owner', 'rate_cards', 'participants')
         depth = 1
 
 

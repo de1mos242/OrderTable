@@ -103,7 +103,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 10000,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
 

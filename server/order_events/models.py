@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -28,6 +29,7 @@ class OrderEvent(models.Model):
     name = models.CharField(max_length=100)
     owner = models.ForeignKey('auth.User', related_name='order_events', on_delete=models.CASCADE)
     rate_cards = models.ManyToManyField(RateCard, related_name='orders')
+    participants = models.ManyToManyField(User, related_name='paricipated_orders')
 
     class Meta:
         ordering = ('-created_at',)
