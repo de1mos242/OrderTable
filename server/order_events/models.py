@@ -31,3 +31,18 @@ class OrderEvent(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
+
+
+class OrderPosition(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    rate_card_position = models.ForeignKey('order_events.RateCardPosition', related_name='position',
+                                           on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    customer = models.ForeignKey('auth.User', related_name='order_positions', on_delete=models.CASCADE)
+    amount = models.DecimalField(decimal_places=0, max_digits=4)
+    order_event = models.ForeignKey('order_events.OrderEvent', related_name='positions', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('customer', 'name',)

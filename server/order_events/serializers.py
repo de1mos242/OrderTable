@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
 
-from order_events.models import OrderEvent, RateCard, RateCardPosition
+from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition
 from users.serializers import UserSerializer
 
 
@@ -58,3 +58,12 @@ class RateCardSerializer(serializers.ModelSerializer):
                 RateCardPosition.objects.create(rate_card=instance, **new_position_data)
 
         return instance
+
+
+class OrderPositionSerializer(serializers.ModelSerializer):
+    customer = UserSerializer(read_only=True)
+
+    class Meta:
+        model = OrderPosition
+        fields = ('id', 'name', 'price', 'customer', 'amount', 'order_event', 'rate_card_position',)
+        # depth = 1

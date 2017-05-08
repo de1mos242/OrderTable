@@ -5,8 +5,15 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderModelResolver } from './order-model-resolver.service';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { AuthGuard } from '../auth/auth-guard.service';
+import { OrderPositionsEditComponent } from './order-positions-edit/order-positions-edit.component';
 
 const ordersRoutes: Routes = [
+  {
+    path: 'orders/:id/edit-positions',
+    component: OrderPositionsEditComponent,
+    resolve: { orderModel: OrderModelResolver },
+    canActivate: [ AuthGuard ]
+  },
   {
     path: 'orders/:id/edit',
     component: OrderEditComponent,

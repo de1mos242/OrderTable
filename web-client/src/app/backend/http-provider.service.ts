@@ -2,11 +2,21 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { UserCredentialsStorageService } from '../auth/user-credentials-storage.service';
+import { AlertsService } from '../shared/alerts.service';
 
 @Injectable()
 export class HttpProviderService {
 
-  constructor(private http: Http, private userCredentialsStorage: UserCredentialsStorageService) {
+  static extractListMap<T>(transformer: (data: any) => T): (data: any) => T[] {
+    return (data: any) => {
+      const results = data.results || [];
+      return results.map(transformer);
+    }
+  }
+
+  constructor(private http: Http,
+              private userCredentialsStorage: UserCredentialsStorageService,
+              private alerts: AlertsService) {
   }
 
   getBackendEndpointUrl(): string {
@@ -15,21 +25,30 @@ export class HttpProviderService {
 
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
     const resultUrl = this.getFullUrl(url);
-    return this.http.get(resultUrl, this.addSecurityHeaders(options)).map(this.extractData).catch(this.handleError);
+    return this.http.get(resultUrl, this.addSecurityHeaders(options))
+               .map(this.extractData)
+               .catch(error => this.handleError(error));
   }
 
   post(url: string, body: object, options?: RequestOptionsArgs): Observable<any> {
     const fullUrl = this.getFullUrl(url);
     return this.http.post(fullUrl, body || {}, this.addSecurityHeaders(options))
                .map(this.extractData)
-               .catch(this.handleError);
+               .catch(error => this.handleError(error));
   }
 
   put(url: string, body: object, options?: RequestOptionsArgs): Observable<any> {
     const fullUrl = this.getFullUrl(url);
     return this.http.put(fullUrl, body || {}, this.addSecurityHeaders(options))
                .map(this.extractData)
-               .catch(this.handleError);
+               .catch(error => this.handleError(error));
+  }
+
+  delete(url: string, options?: RequestOptionsArgs): Observable<any> {
+    const resultUrl = this.getFullUrl(url);
+    return this.http.delete(resultUrl, this.addSecurityHeaders(options))
+               .map(this.extractData)
+               .catch(error => this.handleError(error));
   }
 
   private getFullUrl(url: string) {
@@ -53,6 +72,7 @@ export class HttpProviderService {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
+    this.alerts.showError(errMsg);
     return Observable.throw({ errMsg, status });
   }
 
@@ -66,4 +86,5 @@ export class HttpProviderService {
     }
     return options;
   }
+
 }

@@ -4,17 +4,23 @@ import { OrderService } from './order.service';
 import { HttpProviderService } from './http-provider.service';
 import { AuthBackendService } from './auth-backend.service';
 import { RateCardService } from './rate-card.service';
+import { OrderPositionService } from './order-position.service';
+import { RateCardPositionService } from './rate-card-position.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
   ],
   declarations: [],
   providers: [
     AuthBackendService,
     HttpProviderService,
     RateCardService,
-    OrderService
+    OrderService,
+    OrderPositionService,
+    RateCardPositionService,
   ]
 })
 export class BackendModule {
