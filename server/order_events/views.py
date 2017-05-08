@@ -1,11 +1,13 @@
 from django_filters import rest_framework
 from rest_framework import permissions, viewsets
+from rest_framework.decorators import detail_route
+from rest_framework.response import Response
 
 from order_events.filters import RateCardFilter, OrderPositionFilter, RateCardPositionFilter
 from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition
 from order_events.permissions import IsOwnerOrReadOnly
 from order_events.serializers import OrderEventSerializer, RateCardSerializer, RateCardPositionSerializer, \
-    OrderPositionSerializer
+    OrderPositionSerializer, OrderGroupPositionSerializer, CustomerStatsSerializer
 
 
 class OrderEventViewSet(viewsets.ModelViewSet):
@@ -16,6 +18,15 @@ class OrderEventViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer: OrderEventSerializer):
         serializer.save(owner=self.request.user)
 
+    @detail_route(methods=['get'])
+    def groued_positions(self, request, pk=None):
+        serializer = OrderGroupPositionSerializer(self.get_object())
+        return Response({'results': serializer.data})
+
+    @detail_route(methods=['get'])
+    def customers_stats(self, request, pk=None):
+        serializer = CustomerStatsSerializer(self.get_object())
+        return Response({'results': serializer.data})
 
 class RateCardViewSet(viewsets.ModelViewSet):
     queryset = RateCard.objects.all()

@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.db.models import Sum, F
 from rest_framework import serializers
 from rest_framework.relations import PrimaryKeyRelatedField
 
@@ -67,3 +69,29 @@ class OrderPositionSerializer(serializers.ModelSerializer):
         model = OrderPosition
         fields = ('id', 'name', 'price', 'customer', 'amount', 'order_event', 'rate_card_position',)
         # depth = 1
+
+
+class OrderGroupPositionSerializer(serializers.BaseSerializer):
+    def to_representation(self, obj):
+        grouped = RateCardPosition.objects.filter(position__order_event=obj).annotate(
+            total_amount=Sum('position__amount')).values('name', 'price', 'total_amount')
+        result_list = []
+        for item in grouped:
+            result_list.append({'name': item['name'],
+                                'price': item['price'],
+                                'total_amount': item['total_amount'],
+                                'total_sum': item['price'] * item['total_amount']})
+        return result_list
+
+
+class CustomerStatsSerializer(serializers.BaseSerializer):
+    def to_representation(self, instance):
+        grouped = User.objects.filter(order_positions__order_event=instance).annotate(
+            total_sum=Sum(F('order_positions__amount') * F('order_positions__price')))
+        result_list = []
+        for item in grouped:
+            result_list.append({
+                'customer': UserSerializer(item).data,
+                'total_sum': item.total_sum
+            })
+        return result_list
