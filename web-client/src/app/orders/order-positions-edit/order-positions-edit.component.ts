@@ -51,14 +51,14 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
   }
 
   addPosition(ratePosition: RateCardPosition, amount: number) {
+    const amountNumber = Number(amount);
+    if (amountNumber === 0) {
+      return;
+    }
     const currentUserId = this.currentUser ? this.currentUser.id : -1;
     let orderPosition = this.orderPositions.find(
       op => op.rateCardPositionId === ratePosition.id && op.customer.id === currentUserId);
     if (orderPosition != null) {
-      const amountNumber = Number(amount);
-      if (amountNumber === 0) {
-        return;
-      }
       orderPosition.amount += amountNumber;
       this.orderPositionService.updatePosition(orderPosition).then(pos => this.refreshPositions(this.orderModel));
     } else {
@@ -66,7 +66,7 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
       orderPosition.name = ratePosition.name;
       orderPosition.price = ratePosition.price;
       orderPosition.rateCardPositionId = ratePosition.id;
-      orderPosition.amount = amount;
+      orderPosition.amount = amountNumber;
       orderPosition.orderEventId = this.orderModel.id;
 
       this.orderPositionService.addPosition(orderPosition).then(pos => this.refreshPositions(this.orderModel));

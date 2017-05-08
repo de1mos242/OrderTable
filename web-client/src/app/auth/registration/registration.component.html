@@ -1,0 +1,25 @@
+<form fxLayout="row" fxLayoutAlign="center none" #loginForm="ngForm">
+  <md-card>
+    <md-card-header>
+      <md-card-title>Регистрация</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <md-input-container>
+        <input mdInput placeholder="Имя пользвателя" [(ngModel)]="username" name="username" pattern="[a-zA-Z0-9]+"
+               #name="ngModel" required>
+        <md-error></md-error>
+      </md-input-container>
+      <md-input-container>
+        <input mdInput placeholder="Пароль" [(ngModel)]="password" name="password" type="password" required
+               #name="ngModel">
+      </md-input-container>
+      <md-input-container>
+        <input mdInput placeholder="Повторите пароль" [(ngModel)]="password_check" name="password_check" type="password"
+               #name="ngModel" required>
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions>
+      <button [disabled]="!loginForm.form.valid || loginForm.form.pristine" md-button type="submit" (click)="onSubmit()">ОК</button>
+    </md-card-actions>
+  </md-card>
+</form>

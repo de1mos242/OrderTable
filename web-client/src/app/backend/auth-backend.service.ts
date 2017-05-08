@@ -17,4 +17,8 @@ export class AuthBackendService {
   getByUsername(username: string): Observable<User> {
     return this.httpProviderService.get(`/users/by-username/${username}/`).map(User.fromJson);
   }
+
+  tryRegister(username: string, password: string): Promise<any> {
+    return this.httpProviderService.post('/security-users/', { username, password }).toPromise();
+  }
 }

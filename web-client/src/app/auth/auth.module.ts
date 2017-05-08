@@ -6,6 +6,7 @@ import { AuthGuard } from './auth-guard.service';
 import { AuthService } from './auth.service';
 import { MaterialExtModule } from '../material-ext/material-ext.module';
 import { UserCredentialsStorageService } from './user-credentials-storage.service';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { UserCredentialsStorageService } from './user-credentials-storage.servic
     AuthRoutingModule,
     CommonModule
   ],
-  declarations: [LoginComponent],
+  declarations: [ LoginComponent, RegistrationComponent ],
   providers: [ AuthGuard, AuthService, UserCredentialsStorageService ]
 })
-export class AuthModule { }
+export class AuthModule {
+}

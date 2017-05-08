@@ -75,4 +75,10 @@ export class AuthService {
     this.currentUserCredentials.token = token;
     this.userCredentialsStorage.saveStoredCredentials(this.currentUserCredentials);
   }
+
+  tryRegister(username: string, password: string): Promise<boolean> {
+    return this.authBackendService.tryRegister(username, password).then(registrationData => {
+      return this.tryLogin(username, password).toPromise();
+    });
+  }
 }
