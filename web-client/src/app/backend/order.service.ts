@@ -50,4 +50,13 @@ export class OrderService {
     return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/customers_stats`)
                .map(HttpProviderService.extractListMap(CustomerStats.fromJson));
   }
+
+  requestInvitationToken(id: number): Promise<string> {
+    return this.httpProviderService.post(`${this.resourceUrl}${id}/request_invitation_token/`, { id })
+               .map(data => data.token).toPromise();
+  }
+
+  inviteParticipant(id: number, token: string): Promise<any> {
+    return this.httpProviderService.put(`${this.resourceUrl}${id}/invite/`, { token }).toPromise();
+  }
 }

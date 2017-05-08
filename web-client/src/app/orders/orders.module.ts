@@ -8,6 +8,7 @@ import { OrderModelResolver } from './order-model-resolver.service';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { OrderPositionsEditComponent } from './order-positions-edit/order-positions-edit.component';
 import { OrderParticipantManagerComponent } from './order-participant-manager/order-participant-manager.component';
+import { InviteGuard } from './invite-guard.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { OrderParticipantManagerComponent } from './order-participant-manager/or
     MaterialExtModule
   ],
   declarations: [ OrdersListComponent, OrderDetailComponent, OrderEditComponent, OrderPositionsEditComponent, OrderParticipantManagerComponent ],
-  providers: [ OrderModelResolver ]
+  providers: [ OrderModelResolver, InviteGuard ]
 })
 export class OrdersModule {
 }

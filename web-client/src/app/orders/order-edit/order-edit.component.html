@@ -3,6 +3,8 @@
     <md-card>
       <md-card-header>
         <md-card-title>Редактирование заказа</md-card-title>
+        <span *ngIf="invitationToken">Приглашение: <a [routerLink]="['/orders', orderModel.id, 'invite', invitationToken]">пригласить</a></span>
+        <button ng-button *ngIf="!invitationToken" (click)="requestInvitationToken()">Получить приглашение</button>
       </md-card-header>
       <md-card-content>
         <md-input-container>

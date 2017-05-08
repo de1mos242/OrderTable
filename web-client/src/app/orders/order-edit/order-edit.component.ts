@@ -27,6 +27,8 @@ export class OrderEditComponent extends BaseComponent implements OnInit {
   searchCardControl: FormControl = new FormControl();
   notLinkedCards: Observable<RateCard[]>;
 
+  invitationToken: string;
+
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private orderService: OrderService,
@@ -83,6 +85,10 @@ export class OrderEditComponent extends BaseComponent implements OnInit {
 
   onOrderRefreshed(orderModel: OrderModel) {
     this.onChangedOrderModel(orderModel);
+  }
+
+  requestInvitationToken() {
+    this.orderService.requestInvitationToken(this.orderModel.id).then(token => this.invitationToken = token);
   }
 
   private filterAlreadyAdded(cards: RateCard[]): RateCard[] {
