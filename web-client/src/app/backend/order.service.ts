@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { OrderModel } from '../models/order-event.model';
 
 import 'rxjs/add/operator/toPromise';
+import { OrderGroupedPosition } from '../models/order-grouped-position.model';
+import { CustomerStats } from '../models/customer-stats.model';
 
 @Injectable()
 export class OrderService {
@@ -39,4 +41,13 @@ export class OrderService {
                .toPromise();
   }
 
+  getGroupedPositions(orderModel: OrderModel): Observable<OrderGroupedPosition[]> {
+    return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/groued_positions`)
+               .map(HttpProviderService.extractListMap(OrderGroupedPosition.fromJson));
+  }
+
+  getCustomerStats(orderModel: OrderModel): Observable<CustomerStats[]> {
+    return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/customers_stats`)
+               .map(HttpProviderService.extractListMap(CustomerStats.fromJson));
+  }
 }

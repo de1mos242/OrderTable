@@ -5,10 +5,34 @@
     </md-card-header>
     <md-card-content>
       Создатель: {{orderModel.owner.username}}
+      Общая сумма: {{getOrderTotalSum() | number:'1.2-2'}}
     </md-card-content>
     <md-card-actions>
       <a *ngIf="isOwner()" md-button [routerLink]="['/orders', orderModel.id, 'edit']">Редактировать заказ</a>
       <a md-button [routerLink]="['/orders', orderModel.id, 'edit-positions']">Редактировать позиции</a>
     </md-card-actions>
   </md-card>
+</div>
+<span>Группировка позиций:</span>
+
+<div fxLayout="row" fxLayoutAlign="center none">
+  <md-list>
+    <md-list-item *ngFor="let groupedPosition of groupedPostions | async">
+      <md-card>
+        <span>{{groupedPosition.name}}: {{groupedPosition.totalAmount}} = {{groupedPosition.price * groupedPosition.totalAmount | number:'1.2-2'}}</span>
+      </md-card>
+    </md-list-item>
+  </md-list>
+</div>
+
+<span>Заказчики:</span>
+
+<div fxLayout="row" fxLayoutAlign="center none">
+  <md-list>
+    <md-list-item *ngFor="let customer_stats of customers_stats">
+      <md-card>
+        <span>{{customer_stats.customer.username}}: -> {{customer_stats.totalSum | number:'1.2-2'}}</span>
+      </md-card>
+    </md-list-item>
+  </md-list>
 </div>
