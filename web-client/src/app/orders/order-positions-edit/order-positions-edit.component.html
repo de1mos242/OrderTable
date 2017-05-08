@@ -1,0 +1,56 @@
+<p>
+  Позиции заказа {{orderModel.name}}:
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <td>Название</td>
+    <td>Цена</td>
+    <td>Количество</td>
+    <td>Сумма</td>
+    <td>Заказчик</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let position of orderPositions">
+    <td>{{position.name}}</td>
+    <td>{{position.price | number:'1.2-2'}}</td>
+    <td>{{position.amount}}</td>
+    <td>{{position.price * position.amount | number:'1.2-2'}}</td>
+    <td>{{position.customer.username}}</td>
+    <td><button md-button (click)="removePosition(position)">-</button></td>
+  </tr>
+  </tbody>
+</table>
+
+<p>
+  Добавить позиции
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <td>Название</td>
+    <td>Цена</td>
+    <td>Количество</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let position of rateCardPositions; let idx = index">
+    <td>{{position.name}}</td>
+    <td>{{position.price | number:'1.2-2'}}</td>
+    <td>
+      <md-input-container>
+        <input mdInput placeholder="количество" [(ngModel)]="amounts[idx]" [name]="'amount_' + idx" type="number"
+               #name="ngModel">
+      </md-input-container>
+    </td>
+    <td>
+      <button md-button (click)="addPosition(position, amounts[idx]); amounts[idx] = 0">+</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
