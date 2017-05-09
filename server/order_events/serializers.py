@@ -30,10 +30,11 @@ class RateCardPositionSerializer(serializers.ModelSerializer):
 
 class RateCardSerializer(serializers.ModelSerializer):
     positions = RateCardPositionSerializer(many=True)
+    owner = UserSerializer(read_only=True)
 
     class Meta:
         model = RateCard
-        fields = ('id', 'name', 'positions')
+        fields = ('id', 'name', 'positions', 'owner')
 
     def create(self, validated_data):
         positions_data = validated_data.pop('positions')

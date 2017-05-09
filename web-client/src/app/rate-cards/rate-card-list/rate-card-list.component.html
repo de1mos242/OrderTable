@@ -1,14 +1,20 @@
-<ul>
-  <li *ngFor="let card of rateCards | async">
-    <a [routerLink]="['/rate-cards', card.id]">{{card.name}} <span>({{card.positions.length}})</span></a>
-  </li>
-</ul>
+<div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+  <form *ngIf="isLoggedIn" fxLayout="row" fxLayoutAlign="center stretch">
+    <md-card fxFlex="80%">
+      <label>Добавить меню: </label>
+      <md-input-container>
+        <input mdInput placeholder="Название" [(ngModel)]="rateCardName" name="name"
+               #name="ngModel">
+      </md-input-container>
+      <button md-button type="submit" (click)="addRateCard()">Добавить</button>
+    </md-card>
+  </form>
 
-<form *ngIf="isLoggedIn">
-  <label>Добавить меню</label>
-  <md-input-container>
-    <input mdInput placeholder="Название" [(ngModel)]="rateCardName" name="name"
-           #name="ngModel">
-  </md-input-container>
-  <button mdButton type="submit" (click)="addRateCard()">Добавить</button>
-</form>
+  <div *ngFor="let card of rateCards | async" fxLayout="row" fxLayoutAlign="center stretch">
+    <div fxFlex="80%">
+      <md-card>
+        <a [routerLink]="['/rate-cards', card.id]">{{card.name}} <span>({{card.positions.length}})</span></a>
+      </md-card>
+    </div>
+  </div>
+</div>

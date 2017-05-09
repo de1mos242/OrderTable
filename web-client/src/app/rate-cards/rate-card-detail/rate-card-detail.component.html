@@ -1,9 +1,15 @@
-<label>{{rateCard?.name}}</label>
-<label>Позиции:</label>
-<ul>
-  <li *ngFor="let pos of rateCard?.positions">
-    <span>{{pos.name}} - {{pos.price | currency:'RUR'}}</span>
-  </li>
-</ul>
-
-<a *ngIf="isLoggedIn" md-button [routerLink]="['/rate-cards', rateCard?.id, 'edit']">Изменить</a>
+<md-card>
+  <md-card-title>{{rateCard?.name}}</md-card-title>
+  <md-card-subtitle>Позиции:</md-card-subtitle>
+  <md-card-content>
+    <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+      <md-card *ngFor="let pos of rateCard?.positions" fxLayout="row" fxLayoutAlign="center stretch">
+        <span fxFlex>{{pos.name}}</span>
+        <span fxFlex="15" class="numeric-cell">{{pos.price | number:'1.2-2'}}</span>
+      </md-card>
+    </div>
+  </md-card-content>
+  <md-card-actions>
+    <a *ngIf="isOwner()" md-button [routerLink]="['/rate-cards', rateCard?.id, 'edit']">Изменить</a>
+  </md-card-actions>
+</md-card>

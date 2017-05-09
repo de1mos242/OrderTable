@@ -23,25 +23,20 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
-      this.navigateBack();
+      this.authService.navigateBack();
     }
   }
 
   onSubmit() {
     const subscription = this.authService.tryLogin(this.username, this.password).subscribe(isAuthorized => {
       if (isAuthorized) {
-        this.navigateBack();
+        this.authService.navigateBack();
       } else {
         this.snackBarRef = this.mdSnackBar.open('Ошибка авторизации', 'X');
         this.subscribed(this.snackBarRef.onAction().subscribe(() => this.snackBarRef.dismiss()));
       }
     });
     this.subscribed(subscription);
-  }
-
-  private navigateBack() {
-    const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/';
-    this.router.navigate([ redirect ]);
   }
 
 }

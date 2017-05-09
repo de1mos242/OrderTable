@@ -1,0 +1,18 @@
+<md-card>
+  <md-card-title>Группировка позиций:</md-card-title>
+  <md-card-content>
+    <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+      <md-card *ngFor="let groupedPosition of groupedPositions | async" fxLayout="row" fxLayoutAlign="center stretch">
+        <span fxFlex>{{ groupedPosition.name }}</span>
+        <span fxFlex="15" class="numeric-cell">{{ groupedPosition.totalAmount }}</span>
+        <span fxFlex="15" class="numeric-cell">{{ groupedPosition.price | number:'1.2-2' }}</span>
+        <span fxFlex="15" class="numeric-cell">{{ groupedPosition.price * groupedPosition.totalAmount | number:'1.2-2' }}</span>
+      </md-card>
+      <md-card fxLayout="row" fxLayoutAlign="center stretch">
+        <span fxFlex>Общая сумма:</span>
+        <span fxFlex="15" class="numeric-cell">{{ totalSum | number:'1.2-2' }}</span>
+      </md-card>
+    </div>
+  </md-card-content>
+
+</md-card>

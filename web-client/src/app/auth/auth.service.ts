@@ -7,6 +7,7 @@ import { User } from '../models/user.model';
 
 import 'rxjs/add/operator/toPromise';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,8 @@ export class AuthService {
   private currentUserObservable = this.currentUser.asObservable();
 
   constructor(private authBackendService: AuthBackendService,
-              private userCredentialsStorage: UserCredentialsStorageService) {
+              private userCredentialsStorage: UserCredentialsStorageService,
+              private router: Router) {
     this.init();
   }
 
@@ -41,6 +43,7 @@ export class AuthService {
     this.currentUserCredentials = null;
     this.userCredentialsStorage.wipeStoredCredentials();
     this.refreshCurrentUser();
+    this.router.navigate(['/']);
   }
 
   onAuthUpdate(): Observable<User> {
@@ -80,5 +83,11 @@ export class AuthService {
     return this.authBackendService.tryRegister(username, password).then(registrationData => {
       return this.tryLogin(username, password).toPromise();
     });
+  }
+
+  navigateBack() {
+    const redirect = this.redirectUrl ? this.redirectUrl : '/';
+    this.redirectUrl = null;
+    this.router.navigate([ redirect ]);
   }
 }

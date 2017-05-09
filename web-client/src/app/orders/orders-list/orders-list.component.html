@@ -1,12 +1,20 @@
-<ul>
-  <li *ngFor="let orderEvent of orders | async">
-    <a [routerLink]="['/orders', orderEvent.id]">{{orderEvent.name}}</a></li>
-</ul>
-<form *ngIf="isLoggedIn">
-  <label>Добавить событие</label>
-  <md-input-container>
-    <input mdInput placeholder="Название" [(ngModel)]="orderName" name="name"
-           #name="ngModel">
-  </md-input-container>
-  <button mdButton type="submit" (click)="addOrder()">Добавить</button>
-</form>
+<div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+  <form *ngIf="isLoggedIn" fxLayout="row" fxLayoutAlign="center stretch">
+    <md-card fxFlex="80%">
+      <label>Добавить заказ: </label>
+      <md-input-container>
+        <input mdInput placeholder="Название" [(ngModel)]="orderName" name="name"
+               #name="ngModel">
+      </md-input-container>
+      <button md-button type="submit" (click)="addOrder()">Добавить</button>
+    </md-card>
+  </form>
+
+  <div *ngFor="let orderEvent of orders | async" fxLayout="row" fxLayoutAlign="center stretch">
+    <div fxFlex="80%">
+      <md-card>
+        <a [routerLink]="['/orders', orderEvent.id]">{{orderEvent.name}}</a>
+      </md-card>
+    </div>
+  </div>
+</div>

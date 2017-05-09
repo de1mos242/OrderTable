@@ -1,42 +1,47 @@
 <div fxLayout="row" fxLayoutAlign="center none">
-  <form>
+  <form fxFlex="80%">
     <md-card>
-      <md-card-header>
-        <md-card-title>Редактирование меню</md-card-title>
-      </md-card-header>
-      <md-card-content>
-        <md-input-container>
-          <input mdInput placeholder="Название меню" [(ngModel)]="rateCard.name" name="card_name"
-                 #name="ngModel">
-        </md-input-container>
-        <ul>
-          <li *ngFor="let pos of rateCard?.positions; let idx = index">
-            <md-input-container>
-              <input mdInput placeholder="Название позиции" [(ngModel)]="rateCard?.positions[idx].name"
-                     [name]="'edit_name'+idx"
-                     #name="ngModel">
-            </md-input-container>
-            <md-input-container>
-              <input mdInput placeholder="Стоимость позиции" [(ngModel)]="rateCard?.positions[idx].price"
-                     [name]="'edit_price'+idx"
-                     #name="ngModel" type="number">
-            </md-input-container>
-            <button md-button (click)="removePosition(idx)">Удалить</button>
-          </li>
-        </ul>
-      </md-card-content>
-
-      <br>
+      <md-card-title>Редактирование меню <a [routerLink]="['/rate-cards', rateCard.id]">{{rateCard.name}}</a>
+      </md-card-title>
       <md-input-container>
-        <input mdInput placeholder="Название позиции" [(ngModel)]="newItemName" name="new_name"
+        <input mdInput placeholder="Название меню" [(ngModel)]="rateCard.name" name="card_name"
                #name="ngModel">
       </md-input-container>
-      <md-input-container>
-        <input mdInput placeholder="Стоимость позиции" [(ngModel)]="newItemPrice" name="new_price"
-               #name="ngModel" type="number">
-      </md-input-container>
-      <button md-button (click)="addNewCard()">Добавить</button>
 
+      <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+        <md-card *ngFor="let pos of rateCard?.positions; let idx = index" fxLayout="row" fxLayoutAlign="center stretch"
+                 fxLayoutGap="5px">
+          <md-input-container fxFlex="60">
+            <input mdInput placeholder="Название позиции" [(ngModel)]="pos.name"
+                   [name]="'edit_name'+idx"
+                   #name="ngModel">
+          </md-input-container>
+          <md-input-container fxFlex="25">
+            <input mdInput placeholder="Стоимость позиции" [(ngModel)]="pos.price"
+                   [name]="'edit_price'+idx"
+                   #name="ngModel" type="number">
+          </md-input-container>
+          <button fxFlex="15" md-button (click)="removePosition(idx)">
+            <md-icon>remove_circle_outline</md-icon>
+          </button>
+        </md-card>
+
+        <form>
+          <md-card fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="5px">
+            <md-input-container fxFlex="60">
+              <input mdInput placeholder="Название позиции" [(ngModel)]="newItemName" name="new_name"
+                     #name="ngModel" #newItemNameComponent>
+            </md-input-container>
+            <md-input-container fxFlex="25">
+              <input mdInput placeholder="Стоимость позиции" [(ngModel)]="newItemPrice" name="new_price"
+                     #name="ngModel" type="number">
+            </md-input-container>
+            <button type="submit" fxFlex="15" md-button (click)="addNewPosition();newItemNameComponent.focus()">
+              <md-icon>add_circle_outline</md-icon>
+            </button>
+          </md-card>
+        </form>
+      </div>
       <md-card-actions>
         <button md-button type="submit" (click)="onSubmit()">Сохранить</button>
       </md-card-actions>

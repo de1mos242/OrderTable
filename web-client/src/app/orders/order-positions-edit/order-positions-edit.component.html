@@ -1,56 +1,43 @@
-<p>
-  Позиции заказа <a [routerLink]="['/orders', orderModel.id]">{{orderModel.name}}</a>:
-</p>
+<div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="center baseline" fxLayoutGap="5px">
+  <md-card fxFlex="50">
+    <md-card-title>Позиции заказа <a [routerLink]="['/orders', orderModel.id]">{{orderModel.name}}</a>:</md-card-title>
+    <md-card-content>
+      <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+        <md-card *ngFor="let position of orderPositions" fxLayout="row" fxLayoutAlign="center baseline">
+          <span fxFlex>{{position.name}}</span>
+          <span fxFlex="20">{{position.customer.username}}</span>
+          <span fxFlex="15" class="numeric-cell">{{position.price | number:'1.2-2'}}</span>
+          <span fxFlex="15" class="numeric-cell">{{position.amount}}</span>
+          <span fxFlex="15" class="numeric-cell">{{position.price * position.amount | number:'1.2-2'}}</span>
+          <button fxFlex="10" md-button (click)="removePosition(position)">
+            <md-icon>remove_circle_outline</md-icon>
+          </button>
+        </md-card>
+      </div>
+    </md-card-content>
+  </md-card>
 
-<table>
-  <thead>
-  <tr>
-    <td>Название</td>
-    <td>Цена</td>
-    <td>Количество</td>
-    <td>Сумма</td>
-    <td>Заказчик</td>
-    <td></td>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let position of orderPositions">
-    <td>{{position.name}}</td>
-    <td>{{position.price | number:'1.2-2'}}</td>
-    <td>{{position.amount}}</td>
-    <td>{{position.price * position.amount | number:'1.2-2'}}</td>
-    <td>{{position.customer.username}}</td>
-    <td><button md-button (click)="removePosition(position)">-</button></td>
-  </tr>
-  </tbody>
-</table>
+  <md-card fxFlex="50">
+    <md-card-title>Добавить позиции:</md-card-title>
+    <md-card-content>
+      <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+        <md-card *ngFor="let position of rateCardPositions; let idx = index" fxLayout="row"
+                 fxLayoutAlign="center baseline" fxLayoutGap="5px">
 
-<p>
-  Добавить позиции
-</p>
-
-<table>
-  <thead>
-  <tr>
-    <td>Название</td>
-    <td>Цена</td>
-    <td>Количество</td>
-    <td></td>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let position of rateCardPositions; let idx = index">
-    <td>{{position.name}}</td>
-    <td>{{position.price | number:'1.2-2'}}</td>
-    <td>
-      <md-input-container>
-        <input mdInput placeholder="количество" [(ngModel)]="amounts[idx]" [name]="'amount_' + idx" type="number"
-               #name="ngModel">
-      </md-input-container>
-    </td>
-    <td>
-      <button md-button (click)="addPosition(position, amounts[idx]); amounts[idx] = 0">+</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+          <span fxFlex>{{position.name}}</span>
+          <span fxFlex="15" class="numeric-cell">{{position.price | number:'1.2-2'}}</span>
+          <span fxFlex="5"></span>
+          <div fxFlex="20" class="numeric-cell">
+            <md-input-container>
+              <input mdInput placeholder="количество" [(ngModel)]="amounts[idx]" [name]="'amount_' + idx" type="number"
+                     #name="ngModel">
+            </md-input-container>
+          </div>
+          <button fxFlex="10" md-button (click)="addPosition(position, amounts[idx]); amounts[idx] = 0">
+            <md-icon>add_circle_outline</md-icon>
+          </button>
+        </md-card>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

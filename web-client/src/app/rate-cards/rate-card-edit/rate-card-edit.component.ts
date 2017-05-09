@@ -20,10 +20,12 @@ export class RateCardEditComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscribed(this.route.data.subscribe((data: { rateCard: RateCard }) => this.rateCard = data.rateCard));
+    this.subscribed(this.route.data.subscribe((data: { rateCard: RateCard }) => {
+      this.rateCard = data.rateCard;
+    }));
   }
 
-  addNewCard() {
+  addNewPosition() {
     if (this.newItemName.length > 0 && this.newItemPrice > 0) {
       const pos = new RateCardPosition();
       pos.name = this.newItemName;
@@ -33,7 +35,6 @@ export class RateCardEditComponent extends BaseComponent implements OnInit {
       this.newItemPrice = 0;
       this.newItemName = '';
     }
-
   }
 
   removePosition(idx: number) {

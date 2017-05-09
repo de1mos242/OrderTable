@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import {
   MdAutocompleteModule,
-  MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdInputModule, MdListModule, MdSnackBarModule,
+  MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdGridListModule, MdIconModule, MdInputModule,
+  MdListModule,
+  MdSnackBarModule,
   MdToolbarModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -12,6 +14,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule,
     ReactiveFormsModule,
+    MdIconModule,
     MdAutocompleteModule,
     MdListModule,
     MdButtonToggleModule,
@@ -27,6 +30,7 @@ import { RouterModule } from '@angular/router';
   exports: [
     RouterModule,
     ReactiveFormsModule,
+    MdIconModule,
     MdAutocompleteModule,
     MdListModule,
     MdButtonToggleModule,

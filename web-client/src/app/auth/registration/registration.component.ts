@@ -35,13 +35,8 @@ export class RegistrationComponent implements OnInit {
     }
 
     this.authService.tryRegister(this.username, this.password)
-        .then(res => this.navigateBack())
+        .then(res => this.authService.navigateBack())
         .catch(err => this.alerts.showError(err));
-  }
-
-  private navigateBack() {
-    const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/';
-    this.router.navigate([ redirect ]);
   }
 
 }

@@ -20,9 +20,9 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
 
   currentUser: User;
 
-  groupedPostions: Observable<OrderGroupedPosition[]>;
+  groupedPositions: Observable<OrderGroupedPosition[]>;
 
-  customers_stats: CustomerStats[];
+  customersStats: CustomerStats[];
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private orderService: OrderService) {
     super();
@@ -35,9 +35,9 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
 
   private onUpdateOrderModel(data: { orderModel: OrderModel }) {
     this.orderModel = data.orderModel;
-    this.groupedPostions = this.orderService.getGroupedPositions(this.orderModel);
+    this.groupedPositions = this.orderService.getGroupedPositions(this.orderModel);
     this.subscribed(this.orderService.getCustomerStats(this.orderModel)
-                        .subscribe(stats => this.customers_stats = stats));
+                        .subscribe(stats => this.customersStats = stats));
   }
 
   isOwner() {
@@ -47,13 +47,10 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
   }
 
   getOrderTotalSum(): number {
-    if (this.customers_stats == null) {
+    if (this.customersStats == null) {
       return 0;
     }
-    return this.customers_stats.reduce((previousValue,
-                                        currentValue,
-                                        currentIndex,
-                                        array) => previousValue + currentValue.totalSum, 0);
+    return this.customersStats.reduce((previousValue, currentValue) => previousValue + currentValue.totalSum, 0);
   }
 
 }

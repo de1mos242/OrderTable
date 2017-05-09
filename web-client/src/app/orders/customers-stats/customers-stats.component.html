@@ -1,0 +1,15 @@
+<md-card>
+  <md-card-title>Заказчики:</md-card-title>
+  <md-card-content>
+    <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
+      <md-card *ngFor="let customerStats of customersStats" fxLayout="row" fxLayoutAlign="center stretch">
+        <span fxFlex>{{customerStats.customer.username}}</span>
+        <span fxFlex="15" class="numeric-cell">{{customerStats.totalSum | number:'1.2-2'}}</span>
+      </md-card>
+      <md-card fxLayout="row" fxLayoutAlign="center stretch">
+        <span fxFlex>Общая сумма:</span>
+        <span fxFlex="15" class="numeric-cell">{{ totalSum | number:'1.2-2' }}</span>
+      </md-card>
+    </div>
+  </md-card-content>
+</md-card>

@@ -9,6 +9,8 @@ import { OrderEditComponent } from './order-edit/order-edit.component';
 import { OrderPositionsEditComponent } from './order-positions-edit/order-positions-edit.component';
 import { OrderParticipantManagerComponent } from './order-participant-manager/order-participant-manager.component';
 import { InviteGuard } from './invite-guard.service';
+import { CustomersStatsComponent } from './customers-stats/customers-stats.component';
+import { GroupedPositionsComponent } from './grouped-positions/grouped-positions.component';
 
 @NgModule({
   imports: [
@@ -20,7 +22,9 @@ import { InviteGuard } from './invite-guard.service';
                   OrderDetailComponent,
                   OrderEditComponent,
                   OrderPositionsEditComponent,
-                  OrderParticipantManagerComponent ],
+                  OrderParticipantManagerComponent,
+                  CustomersStatsComponent,
+                  GroupedPositionsComponent ],
   providers: [ OrderModelResolver, InviteGuard ]
 })
 export class OrdersModule {
