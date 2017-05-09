@@ -5,13 +5,14 @@ import { RateCardDetailComponent } from './rate-card-detail/rate-card-detail.com
 import { RateCardResolverService } from './rate-card-resolver.service';
 import { RateCardEditComponent } from './rate-card-edit/rate-card-edit.component';
 import { AuthGuard } from '../auth/auth-guard.service';
+import { RateCardOwnerGuard } from './rate-card-owner-guard.service';
 
 const ordersRoutes: Routes = [
   {
     path: 'rate-cards/:id/edit',
     component: RateCardEditComponent,
     resolve: { rateCard: RateCardResolverService },
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuard, RateCardOwnerGuard ]
   },
   {
     path: 'rate-cards/:id',

@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OrderModel } from '../../models/order-event.model';
 import { UserService } from '../../backend/user.service';
-import { OrderService } from '../../backend/order.service';
 import { User } from '../../models/user.model';
 
 @Component({
@@ -14,23 +13,25 @@ export class OrderParticipantManagerComponent implements OnInit {
   _orderModel: OrderModel;
   nonParticipantUsers: User[];
   participants: User[];
+  users: User[];
 
   @Input()
   set orderModel(orderModel: OrderModel) {
     this._orderModel = orderModel;
   }
 
-  @Output() onOrderRefreshed = new EventEmitter<OrderModel>();
-
-  constructor(private userService: UserService, private orderService: OrderService) {
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
-    this.refreshLists();
+    this.userService.getUsers().toPromise().then(users => {
+      this.users = users;
+      this.refreshLists();
+    });
   }
 
   refreshLists() {
-    this.userService.getUsers().toPromise().then(users => this.divideUsers(users));
+    this.divideUsers(this.users);
   }
 
   private divideUsers(users: User[]) {
@@ -53,10 +54,6 @@ export class OrderParticipantManagerComponent implements OnInit {
   }
 
   updateOrder() {
-    this.orderService.update(this._orderModel).then(orderModel => {
-      this._orderModel = orderModel;
-      this.refreshLists();
-      this.onOrderRefreshed.emit(orderModel);
-    });
+    this.refreshLists();
   }
 }

@@ -1,37 +1,29 @@
 <div fxLayout="row" fxLayoutAlign="center none">
-  <form>
+  <form fxFlex="80%">
     <md-card>
-      <md-card-header>
-        <md-card-title>Редактирование заказа</md-card-title>
-        <span *ngIf="invitationToken">Приглашение: <a [routerLink]="['/orders', orderModel.id, 'invite', invitationToken]">пригласить</a></span>
-        <button ng-button *ngIf="!invitationToken" (click)="requestInvitationToken()">Получить приглашение</button>
-      </md-card-header>
-      <md-card-content>
-        <md-input-container>
-          <input mdInput placeholder="Название" [(ngModel)]="orderModel.name" name="order_model_name"
-                 #name="ngModel">
-        </md-input-container>
-        <md-list>
-          <md-list-item *ngFor="let card of linkedRateCards; let idx = index">
-            {{card.name}}
-            <button md-button (click)="removeCardAtIdx(idx)">X</button>
-          </md-list-item>
-        </md-list>
-        <md-input-container>
-          <input type="text" mdInput [formControl]="searchCardControl" [mdAutocomplete]="autoComplete">
-        </md-input-container>
+      <md-card-title>Редактирование заказа</md-card-title>
+      <md-tab-group>
+        <md-tab label="Основное">
+          <md-card fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center baseline">
+            <md-input-container>
+              <input mdInput placeholder="Название" [(ngModel)]="orderModel.name" name="order_model_name"
+                     #name="ngModel">
+            </md-input-container>
 
-        <md-autocomplete #autoComplete="mdAutocomplete" [displayWith]="getRateCardName">
-          <md-option *ngFor="let option of notLinkedCards | async" [value]="option"
-                     (onSelectionChange)="addRateCard(option)">
-            {{ option.name }}
-          </md-option>
-        </md-autocomplete>
-
-        <ot-order-participant-manager [orderModel]="orderModel"
-                                      (onOrderRefreshed)="onOrderRefreshed"></ot-order-participant-manager>
-      </md-card-content>
-      <md-card-actions>
+            <span *ngIf="invitationToken">Приглашение:
+                <a [routerLink]="['/orders', orderModel.id, 'invite', invitationToken]">пригласить</a>
+              </span>
+            <button md-button *ngIf="!invitationToken" (click)="requestInvitationToken()">Получить приглашение</button>
+          </md-card>
+        </md-tab>
+        <md-tab label="Меню">
+          <ot-order-rate-cards-manager [orderModel]="orderModel"></ot-order-rate-cards-manager>
+        </md-tab>
+        <md-tab label="Участники">
+          <ot-order-participant-manager [orderModel]="orderModel"></ot-order-participant-manager>
+        </md-tab>
+      </md-tab-group>
+      <md-card-actions >
         <button md-button type="submit" (click)="onSubmit()">Сохранить</button>
       </md-card-actions>
     </md-card>

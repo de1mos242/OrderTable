@@ -44,6 +44,17 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
     if (this.currentUser != null && this.orderModel != null) {
       return this.currentUser.id === this.orderModel.owner.id;
     }
+    return false;
+  }
+
+  canEditPositions() {
+    if (this.isOwner()) {
+      return true;
+    }
+    if (this.currentUser != null && this.orderModel != null) {
+      return this.orderModel.participants.indexOf(this.currentUser.id) >= 0;
+    }
+    return false;
   }
 
   getOrderTotalSum(): number {

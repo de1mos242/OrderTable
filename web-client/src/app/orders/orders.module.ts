@@ -11,6 +11,9 @@ import { OrderParticipantManagerComponent } from './order-participant-manager/or
 import { InviteGuard } from './invite-guard.service';
 import { CustomersStatsComponent } from './customers-stats/customers-stats.component';
 import { GroupedPositionsComponent } from './grouped-positions/grouped-positions.component';
+import { OrderRateCardsManagerComponent } from './order-rate-cards-manager/order-rate-cards-manager.component';
+import { OrderParticipantGuard } from './order-participant-guard.service';
+import { OrderIsOwnerGuard } from './order-is-owner-guard.service';
 
 @NgModule({
   imports: [
@@ -24,8 +27,9 @@ import { GroupedPositionsComponent } from './grouped-positions/grouped-positions
                   OrderPositionsEditComponent,
                   OrderParticipantManagerComponent,
                   CustomersStatsComponent,
-                  GroupedPositionsComponent ],
-  providers: [ OrderModelResolver, InviteGuard ]
+                  GroupedPositionsComponent,
+                  OrderRateCardsManagerComponent ],
+  providers: [ OrderModelResolver, InviteGuard, OrderParticipantGuard, OrderIsOwnerGuard ]
 })
 export class OrdersModule {
 }

@@ -1,11 +1,11 @@
 <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="center baseline" fxLayoutGap="5px">
   <md-card fxFlex="50">
-    <md-card-title>Участники:</md-card-title>
+    <md-card-title>Меню:</md-card-title>
     <md-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
-        <md-card *ngFor="let participant of participants" fxLayout="row" fxLayoutAlign="center baseline">
-          <span fxFlex>{{participant.username}}</span>
-          <button fxFlex="10" md-button (click)="removeParticipant(participant)">
+        <md-card *ngFor="let card of linkedRateCards" fxLayout="row" fxLayoutAlign="center baseline">
+          <span fxFlex>{{card.name}}</span>
+          <button fxFlex="10" md-button (click)="removeCard(card)">
             <md-icon>remove_circle_outline</md-icon>
           </button>
         </md-card>
@@ -14,13 +14,13 @@
   </md-card>
 
   <md-card fxFlex="50">
-    <md-card-title>Добавить участников:</md-card-title>
+    <md-card-title>Добавить меню:</md-card-title>
     <md-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
-        <md-card *ngFor="let user of nonParticipantUsers" fxLayout="row"
+        <md-card *ngFor="let card of notLinkedRateCards" fxLayout="row"
                  fxLayoutAlign="center baseline" fxLayoutGap="5px">
-          <span fxFlex>{{user.username}}</span>
-          <button fxFlex="10" md-button (click)="addParticipant(user)">
+          <span fxFlex>{{card.name}}</span>
+          <button fxFlex="10" md-button (click)="addRateCard(card)">
             <md-icon>add_circle_outline</md-icon>
           </button>
         </md-card>

@@ -10,7 +10,7 @@
       </md-card-content>
       <md-card-actions>
         <a *ngIf="isOwner()" md-button [routerLink]="['/orders', orderModel.id, 'edit']">Редактировать заказ</a>
-        <a md-button [routerLink]="['/orders', orderModel.id, 'edit-positions']">Редактировать позиции</a>
+        <a *ngIf="canEditPositions()" md-button [routerLink]="['/orders', orderModel.id, 'edit-positions']">Редактировать позиции</a>
       </md-card-actions>
     </md-card>
   </div>

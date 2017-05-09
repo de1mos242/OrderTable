@@ -3,7 +3,7 @@ import {
   MdAutocompleteModule,
   MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdGridListModule, MdIconModule, MdInputModule,
   MdListModule,
-  MdSnackBarModule,
+  MdSnackBarModule, MdTabsModule,
   MdToolbarModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     RouterModule,
     ReactiveFormsModule,
+    MdTabsModule,
     MdIconModule,
     MdAutocompleteModule,
     MdListModule,
@@ -30,6 +31,7 @@ import { RouterModule } from '@angular/router';
   exports: [
     RouterModule,
     ReactiveFormsModule,
+    MdTabsModule,
     MdIconModule,
     MdAutocompleteModule,
     MdListModule,

@@ -7,6 +7,7 @@ import { RateCardResolverService } from './rate-card-resolver.service';
 import { RateCardEditComponent } from './rate-card-edit/rate-card-edit.component';
 import { MaterialExtModule } from '../material-ext/material-ext.module';
 import { MdCardModule } from '@angular/material';
+import { RateCardOwnerGuard } from './rate-card-owner-guard.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { MdCardModule } from '@angular/material';
     MdCardModule
   ],
   declarations: [ RateCardListComponent, RateCardDetailComponent, RateCardEditComponent ],
-  providers: [ RateCardResolverService ]
+  providers: [ RateCardResolverService, RateCardOwnerGuard ]
 })
 export class RateCardsModule {
 }
