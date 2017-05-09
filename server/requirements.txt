@@ -1,6 +1,7 @@
 django
 djangorestframework
+django-filter
 coreapi
 django-rest-swagger
 django-cors-headers
-django_filters
+psycopg2

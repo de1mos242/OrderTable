@@ -1,0 +1,51 @@
+version: '2'
+services:
+  server:
+    image: de1m0s/orders-table-server
+    environment:
+      DATABASE_PASSWORD: ot_password
+      DATABASE_USER: ot_user
+      DATABASE_NAME: ot_db
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      PYTHONUNBUFFERED: 0
+    ports:
+      - "5000:8000"
+    links:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ot_password
+      POSTGRES_USER: ot_user
+      POSTGRES_DB: ot_db
+    ports:
+      - "5432:5432"
+
+  js-data:
+    image: de1m0s/orders-table-client
+    volumes:
+     - /webapp
+
+  nginx:
+    image: nginx
+    volumes_from:
+     - js-data:ro
+    volumes:
+     - ./nginx/orders-table.conf:/etc/nginx/conf.d/orders-table.template
+    ports:
+     - "8080:80"
+    environment:
+     NGINX_PROXY_HOST: server
+     NGINX_PROXY_PORT: 8000
+     remote_addr: $$remote_addr
+     http_host: $$http_host
+     uri: $$uri
+     host: $$host
+     http_upgrade: $$http_upgrade
+     proxy_add_x_forwarded_for: $$proxy_add_x_forwarded_for
+
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/orders-table.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    links:
+     - server

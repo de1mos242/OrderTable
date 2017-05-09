@@ -12,11 +12,10 @@ class OrderEventSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     rate_cards = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=RateCard.objects.all(), required=False)
     participants = PrimaryKeyRelatedField(allow_empty=True, many=True, queryset=User.objects.all(), required=False)
-    invitation_token = CharField(read_only=True)
 
     class Meta:
         model = OrderEvent
-        fields = ('id', 'name', 'owner', 'rate_cards', 'participants', 'invitation_token')
+        fields = ('id', 'name', 'owner', 'rate_cards', 'participants')
         depth = 1
 
 

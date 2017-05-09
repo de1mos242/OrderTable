@@ -20,7 +20,7 @@ export class HttpProviderService {
   }
 
   getBackendEndpointUrl(): string {
-    return 'http://127.0.0.1:8000';
+    return '/api';
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<any> {
