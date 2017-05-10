@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { RateCardService } from '../backend/rate-card.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class RateCardOwnerGuard implements CanActivate {
@@ -10,9 +11,11 @@ export class RateCardOwnerGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot): Promise<boolean> {
-    const currentUser = this.authService.currentUser.getValue();
-    return this.rateCardService.getById(route.params.id).toPromise().then(rateCard => {
+              state: RouterStateSnapshot): Observable<boolean> {
+    const onGetAuth = this.authService.onAuthUpdate();
+    const onGetRateCard = this.rateCardService.getById(route.params.id);
+
+    return Observable.combineLatest(onGetAuth, onGetRateCard).map(([ currentUser, rateCard ]) => {
         if (rateCard != null && currentUser != null) {
           if (rateCard.owner.id === currentUser.id) {
             return true;
@@ -25,7 +28,7 @@ export class RateCardOwnerGuard implements CanActivate {
           return false;
         }
       }
-    );
+    ).catch(_ => Observable.of([ false ]));
 
   }
 

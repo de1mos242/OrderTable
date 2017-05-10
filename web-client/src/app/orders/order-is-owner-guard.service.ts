@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { OrderService } from '../backend/order.service';
 import { AuthService } from '../auth/auth.service';
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/observable/combineLatest';
 
 @Injectable()
 export class OrderIsOwnerGuard implements CanActivate {
@@ -10,9 +13,11 @@ export class OrderIsOwnerGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot): Promise<boolean> {
-    const currentUser = this.authService.currentUser.getValue();
-    return this.orderService.getOrder(route.params.id).toPromise().then(orderModel => {
+              state: RouterStateSnapshot): Observable<boolean> {
+    const onGetAuth = this.authService.onAuthUpdate();
+    const onGetOrder = this.orderService.getOrder(route.params.id);
+
+    return Observable.combineLatest(onGetAuth, onGetOrder).map(([ currentUser, orderModel ]) => {
         if (orderModel != null && currentUser != null) {
           if (orderModel.owner.id === currentUser.id) {
             return true;
@@ -25,7 +30,7 @@ export class OrderIsOwnerGuard implements CanActivate {
           return false;
         }
       }
-    );
+    ).catch(_ => Observable.of([false]));
 
   }
 
