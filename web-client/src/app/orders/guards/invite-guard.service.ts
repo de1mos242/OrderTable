@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderService } from '../backend/order.service';
+import { OrderService } from '../../backend/order.service';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 
 @Injectable()

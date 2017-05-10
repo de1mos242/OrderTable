@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { OrderService } from '../backend/order.service';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs/Observable';
-
-import 'rxjs/add/observable/combineLatest';
+import { AuthService } from '../../auth/auth.service';
+import { OrderService } from '../../backend/order.service';
+import { OrderModel } from '../../models/order-event.model';
+import { User } from '../../models/user.model';
 
 @Injectable()
-export class OrderIsOwnerGuard implements CanActivate {
-
+export class CanEditOrderPositionsGuard implements CanActivate {
   constructor(private authService: AuthService, private orderService: OrderService, private router: Router) {
   }
 
@@ -17,9 +16,15 @@ export class OrderIsOwnerGuard implements CanActivate {
     const onGetAuth = this.authService.onAuthUpdate();
     const onGetOrder = this.orderService.getOrder(route.params.id);
 
-    return Observable.combineLatest(onGetAuth, onGetOrder).map(([ currentUser, orderModel ]) => {
+    return Observable.combineLatest(onGetAuth, onGetOrder).map(([ currentUser, orderModel ]: [ User, OrderModel ]) => {
+        if (orderModel.status !== 'BUILD') {
+          this.moveToAccessDenied();
+          return false;
+        }
         if (orderModel != null && currentUser != null) {
           if (orderModel.owner.id === currentUser.id) {
+            return true;
+          } else if (orderModel.participants.indexOf(currentUser.id) >= 0) {
             return true;
           } else {
             this.moveToAccessDenied();
@@ -30,7 +35,10 @@ export class OrderIsOwnerGuard implements CanActivate {
           return false;
         }
       }
-    ).catch(_ => Observable.of([false]));
+    ).catch(_ => {
+      this.moveToAccessDenied();
+      return Observable.of([ false ]);
+    });
 
   }
 

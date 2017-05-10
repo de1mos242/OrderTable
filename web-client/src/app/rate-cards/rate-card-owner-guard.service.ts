@@ -28,7 +28,10 @@ export class RateCardOwnerGuard implements CanActivate {
           return false;
         }
       }
-    ).catch(_ => Observable.of([ false ]));
+    ).catch(_ => {
+      this.moveToAccessDenied();
+      return Observable.of([ false ]);
+    });
 
   }
 

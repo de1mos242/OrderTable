@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpProviderService } from './http-provider.service';
 import { Observable } from 'rxjs/Observable';
-import { OrderModel } from '../models/order-event.model';
+import { OrderModel, OrderStatus } from '../models/order-event.model';
 
 import 'rxjs/add/operator/toPromise';
 import { OrderGroupedPosition } from '../models/order-grouped-position.model';
@@ -58,5 +58,11 @@ export class OrderService {
 
   inviteParticipant(id: number, token: string): Promise<any> {
     return this.httpProviderService.put(`${this.resourceUrl}${id}/invite/`, { token }).toPromise();
+  }
+
+  setStatus(id: number, status: OrderStatus): Promise<OrderModel> {
+    return this.httpProviderService.put(`${this.resourceUrl}${id}/status/`, { status })
+               .map(OrderModel.fromJson)
+               .toPromise();
   }
 }

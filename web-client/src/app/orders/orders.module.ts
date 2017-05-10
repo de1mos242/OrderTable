@@ -8,12 +8,14 @@ import { OrderModelResolver } from './order-model-resolver.service';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { OrderPositionsEditComponent } from './order-positions-edit/order-positions-edit.component';
 import { OrderParticipantManagerComponent } from './order-participant-manager/order-participant-manager.component';
-import { InviteGuard } from './invite-guard.service';
+import { InviteGuard } from './guards/invite-guard.service';
 import { CustomersStatsComponent } from './customers-stats/customers-stats.component';
 import { GroupedPositionsComponent } from './grouped-positions/grouped-positions.component';
 import { OrderRateCardsManagerComponent } from './order-rate-cards-manager/order-rate-cards-manager.component';
-import { OrderParticipantGuard } from './order-participant-guard.service';
-import { OrderIsOwnerGuard } from './order-is-owner-guard.service';
+import { CanEditOrderPositionsGuard } from './guards/can-edit-order-positions-guard.service';
+import { OrderIsOwnerGuard } from './guards/order-is-owner-guard.service';
+import { OrderStatusPipe } from './pipes/order-status.pipe';
+import { SetOrderStatusLabelPipe } from './pipes/set-order-status-label.pipe';
 
 @NgModule({
   imports: [
@@ -28,8 +30,10 @@ import { OrderIsOwnerGuard } from './order-is-owner-guard.service';
                   OrderParticipantManagerComponent,
                   CustomersStatsComponent,
                   GroupedPositionsComponent,
-                  OrderRateCardsManagerComponent ],
-  providers: [ OrderModelResolver, InviteGuard, OrderParticipantGuard, OrderIsOwnerGuard ]
+                  OrderRateCardsManagerComponent,
+                  OrderStatusPipe,
+                  SetOrderStatusLabelPipe ],
+  providers: [ OrderModelResolver, InviteGuard, CanEditOrderPositionsGuard, OrderIsOwnerGuard ]
 })
 export class OrdersModule {
 }

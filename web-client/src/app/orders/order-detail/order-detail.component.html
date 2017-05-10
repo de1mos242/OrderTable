@@ -5,12 +5,14 @@
       <md-card-content>
         <md-list>
           <md-list-item>Создатель: {{orderModel.owner.username}}</md-list-item>
+          <md-list-item>Статус: {{orderModel.status | orderStatus}}</md-list-item>
           <md-list-item>Общая сумма: {{getOrderTotalSum() | number:'1.2-2'}}</md-list-item>
         </md-list>
       </md-card-content>
       <md-card-actions>
         <a *ngIf="isOwner()" md-button [routerLink]="['/orders', orderModel.id, 'edit']">Редактировать заказ</a>
         <a *ngIf="canEditPositions()" md-button [routerLink]="['/orders', orderModel.id, 'edit-positions']">Редактировать позиции</a>
+        <a *ngFor="let action of getActionsList()" md-button (click)="setStatus(action)">{{action | setOrderStatusLabel}}</a>
       </md-card-actions>
     </md-card>
   </div>

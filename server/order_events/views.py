@@ -6,17 +6,22 @@ from rest_framework.decorators import detail_route
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
+from order_events import services
+from order_events.enums import OrderEventStatus
 from order_events.filters import RateCardFilter, OrderPositionFilter, RateCardPositionFilter
 from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition
-from order_events.permissions import IsOwnerOrReadOnly, OrderPositionPermissions
+from order_events.permissions import IsOwnerOrReadOnly, OrderPositionPermissions, NotDraftOrderPermissions
 from order_events.serializers import OrderEventSerializer, RateCardSerializer, RateCardPositionSerializer, \
     OrderPositionSerializer, OrderGroupPositionSerializer, CustomerStatsSerializer
 
 
 class OrderEventViewSet(viewsets.ModelViewSet):
-    queryset = OrderEvent.objects.all()
     serializer_class = OrderEventSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, NotDraftOrderPermissions, )
+
+    def get_queryset(self):
+        return OrderEvent.objects.filter(owner=self.request.user) \
+                   | OrderEvent.objects.exclude(status=OrderEventStatus.PREPARE)
 
     def perform_create(self, serializer: OrderEventSerializer):
         serializer.save(owner=self.request.user)
@@ -47,6 +52,13 @@ class OrderEventViewSet(viewsets.ModelViewSet):
         else:
             raise PermissionDenied("token not valid")
         return Response({'result': True})
+
+    @detail_route(methods=['put'])
+    def status(self, request, pk=None):
+        order: OrderEvent = self.get_object()
+        new_status = OrderEventStatus.get_by_name(request.data['status'])
+        services.update_order_status(order, new_status)
+        return Response(OrderEventSerializer(order).data)
 
 
 class RateCardViewSet(viewsets.ModelViewSet):

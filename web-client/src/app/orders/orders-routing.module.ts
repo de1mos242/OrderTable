@@ -6,9 +6,9 @@ import { OrderModelResolver } from './order-model-resolver.service';
 import { OrderEditComponent } from './order-edit/order-edit.component';
 import { AuthGuard } from '../auth/auth-guard.service';
 import { OrderPositionsEditComponent } from './order-positions-edit/order-positions-edit.component';
-import { InviteGuard } from './invite-guard.service';
-import { OrderParticipantGuard } from './order-participant-guard.service';
-import { OrderIsOwnerGuard } from './order-is-owner-guard.service';
+import { InviteGuard } from './guards/invite-guard.service';
+import { CanEditOrderPositionsGuard } from './guards/can-edit-order-positions-guard.service';
+import { OrderIsOwnerGuard } from './guards/order-is-owner-guard.service';
 
 const ordersRoutes: Routes = [
   {
@@ -21,7 +21,7 @@ const ordersRoutes: Routes = [
     path: 'orders/:id/edit-positions',
     component: OrderPositionsEditComponent,
     resolve: { orderModel: OrderModelResolver },
-    canActivate: [ AuthGuard, OrderParticipantGuard ]
+    canActivate: [ AuthGuard, CanEditOrderPositionsGuard ]
   },
   {
     path: 'orders/:id/edit',

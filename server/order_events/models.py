@@ -3,6 +3,8 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 
+from order_events.enums import OrderEventStatus
+
 
 class RateCard(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -33,6 +35,7 @@ class OrderEvent(models.Model):
     rate_cards = models.ManyToManyField(RateCard, related_name='orders')
     participants = models.ManyToManyField(User, related_name='paricipated_orders')
     invitation_token = models.CharField(max_length=50, default=uuid.uuid4)
+    status = models.IntegerField(default=OrderEventStatus.PREPARE, choices=OrderEventStatus.STATUS_CHOICES)
 
     class Meta:
         ordering = ('-created_at',)

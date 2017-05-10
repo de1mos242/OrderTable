@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../../shared/base-component/base-component.component';
-import { OrderModel } from '../../models/order-event.model';
+import { OrderModel, OrderStatus } from '../../models/order-event.model';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../models/user.model';
 import { OrderGroupedPosition } from '../../models/order-grouped-position.model';
@@ -48,6 +48,9 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
   }
 
   canEditPositions() {
+    if (this.orderModel.status !== 'BUILD') {
+      return false;
+    }
     if (this.isOwner()) {
       return true;
     }
@@ -62,6 +65,32 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
       return 0;
     }
     return this.customersStats.reduce((previousValue, currentValue) => previousValue + currentValue.totalSum, 0);
+  }
+
+  private getTransitionsMap() {
+    const map: { from: OrderStatus, to: OrderStatus }[] = [
+      { from: 'PREPARE', to: 'BUILD' },
+      { from: 'BUILD', to: 'SEND' },
+      { from: 'SEND', to: 'BUILD' },
+      { from: 'SEND', to: 'PAY' },
+      { from: 'PAY', to: 'BUILD' },
+      { from: 'PAY', to: 'CLOSE' },
+      { from: 'CLOSE', to: 'PAY' },
+    ];
+    return map;
+  }
+
+  getActionsList(): OrderStatus[] {
+    if (!this.isOwner()) {
+      return [];
+    }
+    return this.getTransitionsMap()
+               .filter(value => value.from === this.orderModel.status, this)
+               .map(value => value.to);
+  }
+
+  setStatus(newStatus: OrderStatus) {
+    this.orderService.setStatus(this.orderModel.id, newStatus).then(order => this.orderModel = order);
   }
 
 }

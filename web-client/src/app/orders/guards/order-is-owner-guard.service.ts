@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { OrderService } from '../../backend/order.service';
+import { AuthService } from '../../auth/auth.service';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../auth/auth.service';
-import { OrderService } from '../backend/order.service';
+
+import 'rxjs/add/observable/combineLatest';
 
 @Injectable()
-export class OrderParticipantGuard implements CanActivate {
+export class OrderIsOwnerGuard implements CanActivate {
+
   constructor(private authService: AuthService, private orderService: OrderService, private router: Router) {
   }
 
@@ -18,8 +21,6 @@ export class OrderParticipantGuard implements CanActivate {
         if (orderModel != null && currentUser != null) {
           if (orderModel.owner.id === currentUser.id) {
             return true;
-          } else if (orderModel.participants.indexOf(currentUser.id) >= 0) {
-            return true;
           } else {
             this.moveToAccessDenied();
             return false;
@@ -29,7 +30,10 @@ export class OrderParticipantGuard implements CanActivate {
           return false;
         }
       }
-    ).catch(_ => Observable.of([false]));
+    ).catch(_ => {
+      this.moveToAccessDenied();
+      return Observable.of([ false ]);
+    });
 
   }
 

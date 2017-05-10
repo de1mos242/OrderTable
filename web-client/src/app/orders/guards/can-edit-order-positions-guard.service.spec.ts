@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { OrderParticipantGuardService } from './order-participant-guard.service';
+import { OrderParticipantGuardService } from './can-edit-order-positions-guard.service';
 
 describe('OrderParticipantGuardService', () => {
   beforeEach(() => {
