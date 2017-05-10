@@ -35,6 +35,7 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
                         .subscribe((data: { orderModel: OrderModel }) => {
                           this.orderModel = data.orderModel;
                           this.refreshPositions(this.orderModel);
+                          this.refreshRateCardPositions(this.orderModel)
                         }));
     this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.currentUser = user));
   }
@@ -42,11 +43,13 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
   private refreshPositions(model: OrderModel) {
     this.orderPositionService.getFilteredList({ order_id: model.id })
         .then(positions => this.orderPositions = positions);
+  }
 
+  private refreshRateCardPositions(model: OrderModel) {
     this.rateCardPositionService.getFilteredList({ rate_card_ids: model.rateCards.join(',') })
         .then(positions => {
           this.rateCardPositions = positions;
-          this.amounts = new Array(positions.length).fill(0);
+          this.amounts = new Array(positions.length).fill(1);
         });
   }
 
