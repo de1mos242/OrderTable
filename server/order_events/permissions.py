@@ -11,7 +11,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        pattern = re.compile("^/order-events/(\d)+/invite/$")
+        pattern = re.compile("^/api/order-events/(\d)+/invite/$")
         if pattern.match(request.path):
             return True
 
