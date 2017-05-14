@@ -4,14 +4,16 @@ import { ErrorNotFoundComponent } from './error-not-found/error-not-found.compon
 import { AlertsService } from './alerts.service';
 import { MaterialExtModule } from '../material-ext/material-ext.module';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { UserViewNamePipe } from './pipes/user-view-name.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialExtModule,
   ],
-  declarations: [ ErrorNotFoundComponent, AccessDeniedComponent ],
-  providers: [ AlertsService ]
+  declarations: [ ErrorNotFoundComponent, AccessDeniedComponent, UserViewNamePipe ],
+  providers: [ AlertsService ],
+  exports: [ UserViewNamePipe ]
 })
 export class SharedModule {
 }

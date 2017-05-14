@@ -5,17 +5,18 @@
     </md-card-header>
     <md-card-content>
       <md-input-container>
-        <input mdInput placeholder="username" [(ngModel)]="username" name="username" pattern="[a-zA-Z0-9]+"
-               #name="ngModel" required>
+        <input mdInput placeholder="username" name="username" pattern="[a-zA-Z0-9]+"
+               required #usernameField>
       </md-input-container>
       <md-input-container>
-        <input mdInput placeholder="password" [(ngModel)]="password" name="password" type="password"
-               #name="ngModel" required>
+        <input mdInput placeholder="password" name="password" type="password"
+               required #passwordField>
       </md-input-container>
     </md-card-content>
     <md-card-actions>
-      <button md-button type="submit" (click)="onSubmit()">Вход</button>
+      <button md-button type="submit" (click)="tryLogin(usernameField.value, passwordField.value)">Вход</button>
       <a md-button routerLink="/register">Зарегистрироваться</a>
+      <ot-google-login (onSuccessLogin)="onSuccessGoogleLogin($event);usernameField.focus()"></ot-google-login>
     </md-card-actions>
   </md-card>
 </form>

@@ -8,13 +8,15 @@ import { RateCardEditComponent } from './rate-card-edit/rate-card-edit.component
 import { MaterialExtModule } from '../material-ext/material-ext.module';
 import { MdCardModule } from '@angular/material';
 import { RateCardOwnerGuard } from './rate-card-owner-guard.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     MaterialExtModule,
     RateCardsRoutingModule,
-    MdCardModule
+    MdCardModule,
   ],
   declarations: [ RateCardListComponent, RateCardDetailComponent, RateCardEditComponent ],
   providers: [ RateCardResolverService, RateCardOwnerGuard ]

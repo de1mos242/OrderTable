@@ -16,12 +16,14 @@ import { CanEditOrderPositionsGuard } from './guards/can-edit-order-positions-gu
 import { OrderIsOwnerGuard } from './guards/order-is-owner-guard.service';
 import { OrderStatusPipe } from './pipes/order-status.pipe';
 import { SetOrderStatusLabelPipe } from './pipes/set-order-status-label.pipe';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     OrdersRoutingModule,
-    MaterialExtModule
+    MaterialExtModule,
+    SharedModule,
   ],
   declarations: [ OrdersListComponent,
                   OrderDetailComponent,

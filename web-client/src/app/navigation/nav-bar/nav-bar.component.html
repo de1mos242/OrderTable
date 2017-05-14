@@ -4,7 +4,7 @@
     <a md-button [routerLink]="['/rate-cards']" routerLinkActive="active">Меню</a>
     <div fxFlex></div>
     <div *ngIf="currentUser != null">
-      <span >{{currentUser.username}}</span>
+      <span >{{currentUser | userViewName}}</span>
       <button md-button (click)="logout()">Выйти</button>
     </div>
     <a md-button *ngIf="currentUser == null" [routerLink]="['/login']">Войти</a>

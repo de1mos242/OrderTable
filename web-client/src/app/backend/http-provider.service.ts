@@ -82,7 +82,7 @@ export class HttpProviderService {
     options.headers = headers;
     const credentials = this.userCredentialsStorage.loadStoredCredentials();
     if (credentials != null) {
-      headers.append('Authorization', 'Token ' + credentials.token);
+      headers.append('Authorization', `${credentials.tokenType} ${credentials.token}`);
     }
     return options;
   }

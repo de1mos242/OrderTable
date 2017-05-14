@@ -4,7 +4,7 @@
       <md-card-title>{{orderModel.name}}</md-card-title>
       <md-card-content>
         <md-list>
-          <md-list-item>Создатель: {{orderModel.owner.username}}</md-list-item>
+          <md-list-item>Создатель: {{orderModel.owner | userViewName}}</md-list-item>
           <md-list-item>Статус: {{orderModel.status | orderStatus}}</md-list-item>
           <md-list-item>Общая сумма: {{getOrderTotalSum() | number:'1.2-2'}}</md-list-item>
         </md-list>

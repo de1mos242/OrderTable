@@ -23,12 +23,12 @@ import { RateCardsModule } from './rate-cards/rate-card.module';
   imports: [
     RouterModule,
     MaterialExtModule,
+    SharedModule,
     AuthModule,
     BackendModule,
     OrdersModule,
     RateCardsModule,
     NavigationModule,
-    SharedModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,

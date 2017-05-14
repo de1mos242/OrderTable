@@ -4,7 +4,7 @@
     <md-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
         <md-card *ngFor="let participant of participants" fxLayout="row" fxLayoutAlign="center baseline">
-          <span fxFlex>{{participant.username}}</span>
+          <span fxFlex>{{participant | userViewName}}</span>
           <button fxFlex="10" md-button (click)="removeParticipant(participant)">
             <md-icon>remove_circle_outline</md-icon>
           </button>
@@ -19,7 +19,7 @@
       <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
         <md-card *ngFor="let user of nonParticipantUsers" fxLayout="row"
                  fxLayoutAlign="center baseline" fxLayoutGap="5px">
-          <span fxFlex>{{user.username}}</span>
+          <span fxFlex>{{user | userViewName}}</span>
           <button fxFlex="10" md-button (click)="addParticipant(user)">
             <md-icon>add_circle_outline</md-icon>
           </button>

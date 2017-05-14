@@ -13,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class OrdersListComponent extends BaseComponent implements OnInit {
 
-  orders: Observable<OrderModel[]>;
+  orders: OrderModel[];
 
   orderName: string;
 
@@ -24,7 +24,7 @@ export class OrdersListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orders = this.orderEventService.getList();
+    this.subscribed(this.orderEventService.getList().subscribe(orders => this.orders = orders));
 
     this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.isLoggedIn = user != null));
   }

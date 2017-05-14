@@ -5,3 +5,4 @@ coreapi
 django-rest-swagger
 django-cors-headers
 psycopg2
+django-rest-framework-social-oauth2

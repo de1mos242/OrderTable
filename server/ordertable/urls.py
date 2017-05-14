@@ -42,5 +42,6 @@ urlpatterns = [
     url(r'^schema/$', schema_view),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/api-token-auth/', views.obtain_auth_token),
+    url(r'^api/auth/', include('rest_framework_social_oauth2.urls')),
 ]
 

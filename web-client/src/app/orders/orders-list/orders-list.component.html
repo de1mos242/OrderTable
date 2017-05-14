@@ -10,7 +10,7 @@
     </md-card>
   </form>
 
-  <div *ngFor="let orderEvent of orders | async" fxLayout="row" fxLayoutAlign="center stretch">
+  <div *ngFor="let orderEvent of orders" fxLayout="row" fxLayoutAlign="center stretch">
     <div fxFlex="80%">
       <md-card>
         <a [routerLink]="['/orders', orderEvent.id]">{{orderEvent.name}}</a>

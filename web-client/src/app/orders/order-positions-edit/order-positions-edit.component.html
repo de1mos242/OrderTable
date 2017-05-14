@@ -5,7 +5,7 @@
       <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
         <md-card *ngFor="let position of orderPositions" fxLayout="row" fxLayoutAlign="center baseline">
           <span fxFlex>{{position.name}}</span>
-          <span fxFlex="20">{{position.customer.username}}</span>
+          <span fxFlex="20">{{position.customer | userViewName}}</span>
           <span fxFlex="15" class="numeric-cell">{{position.price | number:'1.2-2'}}</span>
           <span fxFlex="15" class="numeric-cell">{{position.amount}}</span>
           <span fxFlex="15" class="numeric-cell">{{position.price * position.amount | number:'1.2-2'}}</span>

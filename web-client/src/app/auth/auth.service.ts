@@ -31,7 +31,7 @@ export class AuthService {
 
   tryLogin(username: string, password: string): Observable<boolean> {
     return this.authBackendService.tryLogin(username, password)
-               .do(token => this.saveCredentials(username, token))
+               .do(token => this.saveCredentials(token))
                .do(token => this.refreshCurrentUser())
                .map(data => {
                  return !!data;
@@ -43,7 +43,7 @@ export class AuthService {
     this.currentUserCredentials = null;
     this.userCredentialsStorage.wipeStoredCredentials();
     this.refreshCurrentUser();
-    this.router.navigate(['/']);
+    this.router.navigate([ '/' ]);
   }
 
   onAuthUpdate(): Observable<User> {
@@ -64,7 +64,7 @@ export class AuthService {
 
   private refreshCurrentUser() {
     if (this.currentUserCredentials != null) {
-      this.authBackendService.getByUsername(this.currentUserCredentials.username).toPromise().then(user => {
+      this.authBackendService.getCurrentUser().toPromise().then(user => {
         this.currentUser.next(user);
       })
     } else {
@@ -72,9 +72,9 @@ export class AuthService {
     }
   }
 
-  private saveCredentials(username: string, token: string) {
+  private saveCredentials(token: string, tokenType: string = 'Token') {
     this.currentUserCredentials = new UserCredentials();
-    this.currentUserCredentials.username = username;
+    this.currentUserCredentials.tokenType = tokenType;
     this.currentUserCredentials.token = token;
     this.userCredentialsStorage.saveStoredCredentials(this.currentUserCredentials);
   }
@@ -89,5 +89,13 @@ export class AuthService {
     const redirect = this.redirectUrl ? this.redirectUrl : '/';
     this.redirectUrl = null;
     this.router.navigate([ redirect ]);
+  }
+
+  tryLoginByGoogle(token: string): Promise<boolean> {
+    return this.authBackendService.tryLoginByGoogle(token).then(authToken => {
+      this.saveCredentials(authToken.access_token, authToken.token_type);
+      this.refreshCurrentUser();
+      return true;
+    });
   }
 }

@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'django_filters',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 ]
 
 MIDDLEWARE = [
@@ -70,10 +73,39 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # Facebook OAuth2
+    # 'social_core.backends.facebook.FacebookAppOAuth2',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+
+    'social_core.backends.google.GooglePlusAuth',
+    'social_core.backends.google.GoogleOAuth2',
+
+
+    # django-rest-framework-social-oauth2
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Facebook configuration
+# SOCIAL_AUTH_FACEBOOK_KEY = '1891789847745371'
+# SOCIAL_AUTH_FACEBOOK_SECRET = 'a9008e6cd1b046720aa00489256dda89'
+# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+#     'fields': 'id, name, picture'
+# }
+
+# Google configuration
+SOCIAL_AUTH_GOOGLE_KEY = '501020083536-9jvdqsho4hdh92jvnu25n5leivgreog0.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_SECRET = 'jcw1au1vf03yF1P6hLwZo9oR'
 
 WSGI_APPLICATION = 'ordertable.wsgi.application'
 
@@ -82,6 +114,8 @@ CORS_ALLOW_HEADERS = default_headers + (
     'x-xsrf-token',
     'x-ijt',
 )
+
+DRFSO2_PROPRIETARY_BACKEND_NAME="Orders table"
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -100,7 +134,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
 
     'PAGE_SIZE': 10000,

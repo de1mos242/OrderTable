@@ -17,11 +17,15 @@ from order_events.serializers import OrderEventSerializer, RateCardSerializer, R
 
 class OrderEventViewSet(viewsets.ModelViewSet):
     serializer_class = OrderEventSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, NotDraftOrderPermissions, )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, NotDraftOrderPermissions,)
 
     def get_queryset(self):
-        return OrderEvent.objects.filter(owner=self.request.user) \
-                   | OrderEvent.objects.exclude(status=OrderEventStatus.PREPARE)
+        in_work_statuses = OrderEvent.objects.exclude(status=OrderEventStatus.PREPARE)
+        if self.request.user.is_authenticated():
+            return OrderEvent.objects.filter(owner=self.request.user) \
+                   | in_work_statuses
+        else:
+            return in_work_statuses
 
     def perform_create(self, serializer: OrderEventSerializer):
         serializer.save(owner=self.request.user)

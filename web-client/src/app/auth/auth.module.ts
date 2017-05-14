@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { MaterialExtModule } from '../material-ext/material-ext.module';
 import { UserCredentialsStorageService } from './user-credentials-storage.service';
 import { RegistrationComponent } from './registration/registration.component';
+import { GoogleLoginComponent } from './google-login/google-login.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { RegistrationComponent } from './registration/registration.component';
     AuthRoutingModule,
     CommonModule
   ],
-  declarations: [ LoginComponent, RegistrationComponent ],
+  declarations: [ LoginComponent, RegistrationComponent, GoogleLoginComponent ],
   providers: [ AuthGuard, AuthService, UserCredentialsStorageService ]
 })
 export class AuthModule {
