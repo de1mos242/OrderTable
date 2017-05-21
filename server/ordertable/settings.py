@@ -104,8 +104,8 @@ AUTHENTICATION_BACKENDS = (
 # }
 
 # Google configuration
-SOCIAL_AUTH_GOOGLE_KEY = '501020083536-9jvdqsho4hdh92jvnu25n5leivgreog0.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_SECRET = 'jcw1au1vf03yF1P6hLwZo9oR'
+SOCIAL_AUTH_GOOGLE_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_KEY', '')
+SOCIAL_AUTH_GOOGLE_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_SECRET', '')
 
 WSGI_APPLICATION = 'ordertable.wsgi.application'
 

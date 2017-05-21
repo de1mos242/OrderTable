@@ -2,6 +2,7 @@ import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular
 
 declare const gapi: any;
 
+
 @Component({
   selector: 'ot-google-login',
   templateUrl: './google-login.component.html',
@@ -24,7 +25,7 @@ export class GoogleLoginComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     gapi.load('auth2', () => {
       this.auth2 = gapi.auth2.init({
-        client_id: '501020083536-9jvdqsho4hdh92jvnu25n5leivgreog0.apps.googleusercontent.com',
+        client_id: GOOGLE_CLIENT_ID,
         cookiepolicy: 'single_host_origin',
         scope: 'profile email'
       });
