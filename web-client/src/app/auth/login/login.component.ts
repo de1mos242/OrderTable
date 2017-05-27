@@ -22,14 +22,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   tryLogin(username: string, password: string) {
-    const subscription = this.authService.tryLogin(username, password).subscribe(isAuthorized => {
+    this.authService.tryLogin(username, password).then(isAuthorized => {
       if (isAuthorized) {
         this.authService.navigateBack();
       } else {
         this.alerts.showError('Ошибка авторизации');
       }
     });
-    this.subscribed(subscription);
   }
 
   onSuccessGoogleLogin(token: string) {

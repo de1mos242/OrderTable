@@ -11,8 +11,14 @@ export class AuthBackendService {
   constructor(private httpProviderService: HttpProviderService) {
   }
 
-  tryLogin(username: string, password: string): Observable<string> {
-    return this.httpProviderService.post('/api-token-auth/', { username, password }).map(data => data.token);
+  tryLogin(username: string, password: string): Promise<OAuthToken> {
+    const authObject = {
+      grant_type: 'password',
+      client_id: 'OrdersTableOAuthApp',
+      username,
+      password
+    };
+    return this.httpProviderService.post('/auth/token', {}, { search: authObject }).toPromise();
   }
 
   getByUsername(username: string): Observable<User> {
@@ -37,4 +43,12 @@ export class AuthBackendService {
     return this.httpProviderService.get(`/users/current_user/`).map(User.fromJson);
   }
 
+  refreshToken(refreshToken: string): Promise<OAuthToken> {
+    const authObject = {
+      grant_type: 'refresh_token',
+      client_id: 'OrdersTableOAuthApp',
+      refresh_token: refreshToken,
+    };
+    return this.httpProviderService.post('/auth/token', {}, { search: authObject }).toPromise();
+  }
 }

@@ -13,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class OrdersListComponent extends BaseComponent implements OnInit {
 
-  orders: OrderModel[];
+  orders: OrderModel[] = [];
 
   orderName: string;
 
@@ -24,9 +24,16 @@ export class OrdersListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscribed(this.orderEventService.getList().subscribe(orders => this.orders = orders));
+    this.updateOrders();
 
-    this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.isLoggedIn = user != null));
+    this.subscribed(this.authService.onAuthUpdate().subscribe(user => {
+      this.isLoggedIn = user != null;
+      this.updateOrders();
+    }));
+  }
+
+  private updateOrders() {
+    this.orderEventService.getList().toPromise().then(orders => this.orders = orders);
   }
 
   addOrder() {
