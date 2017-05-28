@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="space-around stretch" fxLayoutGap="5px">
-  <div fxLayout="row" fxLayoutAlign="center none">
-    <md-card>
+  <div fxLayout="row" fxLayoutAlign="center stretch">
+    <md-card fxFlex="80%">
       <md-card-title>{{orderModel.name}}</md-card-title>
       <md-tab-group>
         <md-tab label="Основное">
@@ -9,12 +9,13 @@
               <md-list>
                 <md-list-item>Создатель: {{orderModel.owner | userViewName}}</md-list-item>
                 <md-list-item>Статус: {{orderModel.status | orderStatus}}</md-list-item>
-                <md-list-item>Общая сумма: {{getOrderTotalSum() | number:'1.2-2'}}</md-list-item>
+                <md-list-item>Общая сумма: {{totalSum | number:'1.2-2'}}</md-list-item>
+                <md-list-item>Общая оплаченнная сумма: {{totalPaidSum | number:'1.2-2'}}</md-list-item>
               </md-list>
             </md-card-content>
             <md-card-actions>
               <a *ngIf="isOwner()" md-button [routerLink]="['/orders', orderModel.id, 'edit']">Редактировать заказ</a>
-              <a *ngIf="canEditPositions()" md-button [routerLink]="['/orders', orderModel.id, 'edit-positions']">Редактировать
+              <a *ngIf="canEditPositions" md-button [routerLink]="['/orders', orderModel.id, 'edit-positions']">Редактировать
                 позиции</a>
               <a *ngFor="let action of getActionsList()" md-button (click)="setStatus(action)">{{action |
                 setOrderStatusLabel}}</a>
@@ -22,12 +23,17 @@
           </md-card>
         </md-tab>
         <md-tab label="Группировка позиций">
-          <ot-grouped-positions fxFlex="50" [groupedPositions]="groupedPositions"
-                                [totalSum]="getOrderTotalSum()"></ot-grouped-positions>
+          <ot-grouped-positions [groupedPositions]="groupedPositions"
+                                [totalSum]="totalSum"></ot-grouped-positions>
         </md-tab>
         <md-tab label="Заказчики">
-          <ot-customers-stats fxFlex="50" [customersStats]="customersStats"
-                              [totalSum]="getOrderTotalSum()"></ot-customers-stats>
+          <ot-customers-stats [customersStats]="customersStats"
+                              [totalSum]="totalSum"
+                              [totalPaid]="totalPaidSum"
+                              [canEditPayments]="canEditPayments"
+                              [orderModel]="orderModel"
+                              (onChangeStats)="updateStats()">
+          </ot-customers-stats>
         </md-tab>
       </md-tab-group>
     </md-card>

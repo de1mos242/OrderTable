@@ -42,12 +42,12 @@ export class OrderService {
   }
 
   getGroupedPositions(orderModel: OrderModel): Observable<OrderGroupedPosition[]> {
-    return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/groued_positions`)
+    return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/groued_positions/`)
                .map(HttpProviderService.extractListMap(OrderGroupedPosition.fromJson));
   }
 
   getCustomerStats(orderModel: OrderModel): Observable<CustomerStats[]> {
-    return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/customers_stats`)
+    return this.httpProviderService.get(`${this.resourceUrl}${orderModel.id}/customers_stats/`)
                .map(HttpProviderService.extractListMap(CustomerStats.fromJson));
   }
 

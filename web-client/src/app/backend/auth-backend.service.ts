@@ -4,6 +4,7 @@ import { HttpProviderService } from './http-provider.service';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user.model';
 import { OAuthToken } from '../models/auth/oauth-token.model';
+import { Headers } from '@angular/http';
 
 @Injectable()
 export class AuthBackendService {
@@ -49,6 +50,8 @@ export class AuthBackendService {
       client_id: 'OrdersTableOAuthApp',
       refresh_token: refreshToken,
     };
-    return this.httpProviderService.post('/auth/token', {}, { search: authObject }).toPromise();
+    const headers = new Headers();
+    headers.append('Authorization', ''); // do not send outdated auth
+    return this.httpProviderService.post('/auth/token', {}, { search: authObject, headers: headers }).toPromise();
   }
 }

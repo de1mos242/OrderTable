@@ -1,0 +1,10 @@
+<div md-dialog-title>Укажите сумму оплаты</div>
+<md-dialog-content>
+  <md-input-container>
+    <input mdInput placeholder="сумма оплаты" type="number" #paidSumField [(ngModel)]='paidSumValue'>
+  </md-input-container>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-dialog-close md-button (click)="dialogRef.close({type: 'Ok', value: paidSumField.value})">Оk</button>
+  <button md-dialog-close md-button (click)="dialogRef.close({type: 'Cancel'})">Отмена</button>
+</md-dialog-actions>

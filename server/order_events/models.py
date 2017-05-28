@@ -54,3 +54,13 @@ class OrderPosition(models.Model):
 
     class Meta:
         ordering = ('customer', 'name',)
+
+class OrderPayment(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    customer = models.ForeignKey('auth.User', related_name='order_payments', on_delete=models.CASCADE)
+    paid_sum = models.DecimalField(decimal_places=2, max_digits=10)
+    order_event = models.ForeignKey('order_events.OrderEvent', related_name='payments', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('customer', )

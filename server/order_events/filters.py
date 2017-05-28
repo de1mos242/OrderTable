@@ -1,7 +1,7 @@
 from django_filters import CharFilter, NumberFilter, BaseInFilter
 from django_filters.rest_framework import FilterSet
 
-from order_events.models import RateCard, OrderPosition, RateCardPosition
+from order_events.models import RateCard, OrderPosition, RateCardPosition, OrderPayment
 
 
 class RateCardFilter(FilterSet):
@@ -28,4 +28,13 @@ class OrderPositionFilter(FilterSet):
 
     class Meta:
         model = OrderPosition
+        fields = ['order_id', 'customer_id']
+
+
+class OrderPaymentFilter(FilterSet):
+    order_id = NumberFilter(name="order_event__id", label="orderId")
+    customer_id = NumberFilter(name="customer__id", label="customerId")
+
+    class Meta:
+        model = OrderPayment
         fields = ['order_id', 'customer_id']

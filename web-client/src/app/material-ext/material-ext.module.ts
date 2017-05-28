@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import {
   MdAutocompleteModule,
-  MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdGridListModule, MdIconModule, MdInputModule,
+  MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdDialogModule, MdGridListModule, MdIconModule,
+  MdInputModule,
   MdListModule,
   MdSnackBarModule, MdTabsModule,
   MdToolbarModule
@@ -27,6 +28,7 @@ import { RouterModule } from '@angular/router';
     MdToolbarModule,
     MdInputModule,
     MdCardModule,
+    MdDialogModule,
   ],
   exports: [
     RouterModule,
@@ -44,6 +46,7 @@ import { RouterModule } from '@angular/router';
     MdToolbarModule,
     MdInputModule,
     MdCardModule,
+    MdDialogModule,
   ],
   declarations: []
 })

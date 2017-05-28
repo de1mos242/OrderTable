@@ -26,6 +26,33 @@ class NotDraftOrderPermissions(permissions.BasePermission):
         return obj.status != OrderEventStatus.PREPARE
 
 
+class OrderPaymentPermissions(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        if obj.order_event.status != OrderEventStatus.PAY:
+            return False
+
+        return obj.order_event.owner == request.user
+
+    def has_permission(self, request: Request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        if 'order_event' not in request.data:
+            return True
+
+        order_id = request.data['order_event']
+        order_event = OrderEvent.objects.get(pk=order_id)
+
+        if order_event.status != OrderEventStatus.PAY:
+            return False
+
+        return order_event.owner == request.user
+
+
 class OrderPositionPermissions(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if obj.order_event.owner == request.user:

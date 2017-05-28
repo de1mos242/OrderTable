@@ -8,6 +8,7 @@ import { OrderPositionService } from './order-position.service';
 import { RateCardPositionService } from './rate-card-position.service';
 import { SharedModule } from '../shared/shared.module';
 import { UserService } from './user.service';
+import { OrderPaymentService } from './order-payment.service';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { UserService } from './user.service';
     OrderService,
     OrderPositionService,
     RateCardPositionService,
+    OrderPaymentService,
   ]
 })
 export class BackendModule {

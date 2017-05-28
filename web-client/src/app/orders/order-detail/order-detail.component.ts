@@ -24,20 +24,42 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
 
   customersStats: CustomerStats[];
 
+  totalSum = 0;
+  totalPaidSum = 0;
+  canEditPayments = false;
+  canEditPositions = false;
+
   constructor(private route: ActivatedRoute, private authService: AuthService, private orderService: OrderService) {
     super();
   }
 
   ngOnInit() {
     this.subscribed(this.route.data.subscribe((data: { orderModel: OrderModel }) => this.onUpdateOrderModel(data)));
-    this.subscribed(this.authService.onAuthUpdate().subscribe(user => this.currentUser = user));
+    this.subscribed(this.authService.onAuthUpdate().subscribe(user => {
+      this.currentUser = user;
+      if (this.orderModel != null) {
+        this.updatePermissions();
+      }
+    }));
   }
 
   private onUpdateOrderModel(data: { orderModel: OrderModel }) {
     this.orderModel = data.orderModel;
     this.groupedPositions = this.orderService.getGroupedPositions(this.orderModel);
-    this.subscribed(this.orderService.getCustomerStats(this.orderModel)
-                        .subscribe(stats => this.customersStats = stats));
+    this.updateStats();
+    this.updatePermissions();
+  }
+
+  updateStats() {
+    this.orderService.getCustomerStats(this.orderModel).toPromise().then(stats => {
+      this.customersStats = stats;
+      this.updateTotals();
+    });
+  }
+
+  updateTotals() {
+    this.totalSum = this.getOrderTotalSum();
+    this.totalPaidSum = this.getOrderTotalPaidSum();
   }
 
   isOwner() {
@@ -47,7 +69,7 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
     return false;
   }
 
-  canEditPositions() {
+  checkCanEditPositions() {
     if (this.orderModel.status !== 'BUILD') {
       return false;
     }
@@ -60,11 +82,14 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
     return false;
   }
 
-  getOrderTotalSum(): number {
-    if (this.customersStats == null) {
-      return 0;
+  checkCanEditPayments() {
+    if (this.orderModel.status !== 'PAY') {
+      return false;
     }
-    return this.customersStats.reduce((previousValue, currentValue) => previousValue + currentValue.totalSum, 0);
+    if (this.isOwner()) {
+      return true;
+    }
+    return false;
   }
 
   private getTransitionsMap() {
@@ -90,7 +115,28 @@ export class OrderDetailComponent extends BaseComponent implements OnInit {
   }
 
   setStatus(newStatus: OrderStatus) {
-    this.orderService.setStatus(this.orderModel.id, newStatus).then(order => this.orderModel = order);
+    this.orderService.setStatus(this.orderModel.id, newStatus).then(order => {
+      this.onUpdateOrderModel({orderModel: order});
+    });
   }
 
+  private getOrderTotalPaidSum() {
+    if (this.customersStats == null) {
+      return 0;
+    }
+    return this.customersStats.reduce((previousValue, currentValue) => previousValue + currentValue.paidSum, 0);
+  }
+
+  private getOrderTotalSum(): number {
+    if (this.customersStats == null) {
+      return 0;
+    }
+    return this.customersStats.reduce((previousValue, currentValue) => previousValue + currentValue.totalSum, 0);
+  }
+
+
+  private updatePermissions() {
+    this.canEditPayments = this.checkCanEditPayments();
+    this.canEditPositions = this.checkCanEditPositions();
+  }
 }

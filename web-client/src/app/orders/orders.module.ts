@@ -17,6 +17,7 @@ import { OrderIsOwnerGuard } from './guards/order-is-owner-guard.service';
 import { OrderStatusPipe } from './pipes/order-status.pipe';
 import { SetOrderStatusLabelPipe } from './pipes/set-order-status-label.pipe';
 import { SharedModule } from '../shared/shared.module';
+import { EditPaidSumDialogComponent } from './dialogs/edit-paid-sum-dialog/edit-paid-sum-dialog.component';
 
 @NgModule({
   imports: [
@@ -34,8 +35,10 @@ import { SharedModule } from '../shared/shared.module';
                   GroupedPositionsComponent,
                   OrderRateCardsManagerComponent,
                   OrderStatusPipe,
-                  SetOrderStatusLabelPipe ],
-  providers: [ OrderModelResolver, InviteGuard, CanEditOrderPositionsGuard, OrderIsOwnerGuard ]
+                  SetOrderStatusLabelPipe,
+                  EditPaidSumDialogComponent ],
+  providers: [ OrderModelResolver, InviteGuard, CanEditOrderPositionsGuard, OrderIsOwnerGuard ],
+  entryComponents: [ EditPaidSumDialogComponent ]
 })
 export class OrdersModule {
 }

@@ -4,7 +4,8 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
 
-from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition
+from order_events import services
+from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition, OrderPayment
 from users.serializers import UserSerializer
 
 
@@ -92,13 +93,28 @@ class OrderGroupPositionSerializer(serializers.BaseSerializer):
 
 
 class CustomerStatsSerializer(serializers.BaseSerializer):
-    def to_representation(self, instance):
-        grouped = User.objects.filter(order_positions__order_event=instance).annotate(
+    def to_representation(self, order_event):
+        grouped = User.objects.filter(order_positions__order_event=order_event).annotate(
             total_sum=Sum(F('order_positions__amount') * F('order_positions__price')))
         result_list = []
         for item in grouped:
             result_list.append({
                 'customer': UserSerializer(item).data,
-                'total_sum': item.total_sum
+                'total_sum': item.total_sum,
+                'paid_sum': services.get_paid_sum(order_event, item)
             })
         return result_list
+
+
+class OrderPaymentsSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        payment, created = OrderPayment.objects.update_or_create(
+            order_event=validated_data.get('order_event', None),
+            customer=validated_data.get('customer', None),
+            defaults={'paid_sum': validated_data.get('paid_sum', 0)}
+        )
+        return payment
+
+    class Meta:
+        model = OrderPayment
+        fields = ('id', 'customer', 'paid_sum', 'order_event')

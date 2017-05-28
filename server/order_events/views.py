@@ -8,11 +8,12 @@ from rest_framework.response import Response
 
 from order_events import services
 from order_events.enums import OrderEventStatus
-from order_events.filters import RateCardFilter, OrderPositionFilter, RateCardPositionFilter
-from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition
-from order_events.permissions import IsOwnerOrReadOnly, OrderPositionPermissions, NotDraftOrderPermissions
+from order_events.filters import RateCardFilter, OrderPositionFilter, RateCardPositionFilter, OrderPaymentFilter
+from order_events.models import OrderEvent, RateCard, RateCardPosition, OrderPosition, OrderPayment
+from order_events.permissions import IsOwnerOrReadOnly, OrderPositionPermissions, NotDraftOrderPermissions, \
+    OrderPaymentPermissions
 from order_events.serializers import OrderEventSerializer, RateCardSerializer, RateCardPositionSerializer, \
-    OrderPositionSerializer, OrderGroupPositionSerializer, CustomerStatsSerializer
+    OrderPositionSerializer, OrderGroupPositionSerializer, CustomerStatsSerializer, OrderPaymentsSerializer
 
 
 class OrderEventViewSet(viewsets.ModelViewSet):
@@ -93,3 +94,10 @@ class OrderPositionViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(customer=self.request.user)
+
+class OrderPaymentViewSet(viewsets.ModelViewSet):
+    queryset = OrderPayment.objects.all()
+    filter_backends = (rest_framework.DjangoFilterBackend,)
+    filter_class = OrderPaymentFilter
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, OrderPaymentPermissions,)
+    serializer_class = OrderPaymentsSerializer

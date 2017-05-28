@@ -1,7 +1,9 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db.models import Sum
 
 from order_events.enums import OrderEventStatus
-from order_events.models import OrderEvent
+from order_events.models import OrderEvent, OrderPayment
 
 
 def update_order_status(order: OrderEvent, new_status: int):
@@ -25,3 +27,9 @@ def is_state_change_acceptable(old_status, new_status) -> bool:
     val = next((transition for transition in allowed_transitions if
                 transition[0] == old_status and transition[1] == new_status), None)
     return val is not None
+
+
+def get_paid_sum(order_event: OrderEvent, user: User):
+    return OrderPayment.objects.filter(order_event=order_event, customer=user)\
+        .aggregate(Sum('paid_sum'))\
+        .get('paid_sum__sum')
