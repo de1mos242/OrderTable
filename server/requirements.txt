@@ -8,3 +8,4 @@ psycopg2==2.7.1
 django-rest-framework-social-oauth2==1.0.7
 django-oauth-toolkit==1.0.0
 social-auth-app-django==1.2.0
+django-braces==1.11.0
