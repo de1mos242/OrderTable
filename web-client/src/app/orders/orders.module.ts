@@ -18,6 +18,7 @@ import { OrderStatusPipe } from './pipes/order-status.pipe';
 import { SetOrderStatusLabelPipe } from './pipes/set-order-status-label.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { EditPaidSumDialogComponent } from './dialogs/edit-paid-sum-dialog/edit-paid-sum-dialog.component';
+import { AddOrderPositionDialogComponent } from './dialogs/add-order-position-dialog/add-order-position-dialog.component';
 
 @NgModule({
   imports: [
@@ -36,9 +37,10 @@ import { EditPaidSumDialogComponent } from './dialogs/edit-paid-sum-dialog/edit-
                   OrderRateCardsManagerComponent,
                   OrderStatusPipe,
                   SetOrderStatusLabelPipe,
-                  EditPaidSumDialogComponent ],
+                  EditPaidSumDialogComponent,
+                  AddOrderPositionDialogComponent ],
   providers: [ OrderModelResolver, InviteGuard, CanEditOrderPositionsGuard, OrderIsOwnerGuard ],
-  entryComponents: [ EditPaidSumDialogComponent ]
+  entryComponents: [ EditPaidSumDialogComponent, AddOrderPositionDialogComponent ]
 })
 export class OrdersModule {
 }

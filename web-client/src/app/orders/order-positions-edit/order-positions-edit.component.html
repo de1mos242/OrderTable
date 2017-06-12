@@ -36,6 +36,9 @@
           <button fxFlex="10" md-button (click)="addPosition(position, amounts[idx]); amounts[idx] = 1">
             <md-icon>add_circle_outline</md-icon>
           </button>
+          <button fxFlex="10" md-button (click)="addComplexPosition(position, amounts[idx])">
+            <md-icon>create</md-icon>
+          </button>
         </md-card>
       </div>
     </md-card-content>

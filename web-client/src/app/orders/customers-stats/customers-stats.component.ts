@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CustomerStats } from '../../models/customer-stats.model';
-import { User } from '../../models/user.model';
 import { MdDialog } from '@angular/material';
 import { EditPaidSumDialogComponent } from '../dialogs/edit-paid-sum-dialog/edit-paid-sum-dialog.component';
 import { OrderPaymentService } from '../../backend/order-payment.service';

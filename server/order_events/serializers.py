@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Count
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
@@ -88,8 +88,11 @@ class OrderPositionSerializer(serializers.ModelSerializer):
 
 class OrderGroupPositionSerializer(serializers.BaseSerializer):
     def to_representation(self, obj):
-        grouped = RateCardPosition.objects.filter(position__order_event=obj).annotate(
-            total_amount=Sum('position__amount')).values('name', 'price', 'total_amount')
+        grouped = OrderPosition.objects.filter(order_event=obj) \
+            .values('rate_card_position', 'name') \
+            .annotate(total_amount=Sum('amount')) \
+            .values('rate_card_position', 'name', 'price', 'total_amount') \
+            .order_by('name')
         result_list = []
         for item in grouped:
             result_list.append({'name': item['name'],

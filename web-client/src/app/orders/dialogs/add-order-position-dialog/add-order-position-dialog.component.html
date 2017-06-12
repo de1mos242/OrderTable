@@ -1,0 +1,13 @@
+<div md-dialog-title>{{dialogParams.position.name}} - уточните детали</div>
+<md-dialog-content fxLayout="column">
+  <md-input-container>
+    <input mdInput placeholder="количество" type="number" [(ngModel)]='dialogParams.amount'>
+  </md-input-container>
+  <md-input-container>
+    <input mdInput placeholder="доп. информация" type="text" maxlength="20" [(ngModel)]='dialogParams.additions'>
+  </md-input-container>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-dialog-close md-button (click)="dialogRef.close({type: 'Ok', value: dialogParams})">Оk</button>
+  <button md-dialog-close md-button (click)="dialogRef.close({type: 'Cancel'})">Отмена</button>
+</md-dialog-actions>

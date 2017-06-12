@@ -8,6 +8,8 @@ import { RateCardPosition } from '../../models/rate-card-position.model';
 import { RateCardPositionService } from '../../backend/rate-card-position.service';
 import { User } from '../../models/user.model';
 import { AuthService } from '../../auth/auth.service';
+import { AddOrderPositionDialogComponent } from '../dialogs/add-order-position-dialog/add-order-position-dialog.component';
+import { MdDialog } from '@angular/material';
 
 @Component({
   selector: 'ot-order-positions-edit',
@@ -26,7 +28,8 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
   constructor(private orderPositionService: OrderPositionService,
               private route: ActivatedRoute,
               private rateCardPositionService: RateCardPositionService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private dialog: MdDialog) {
     super();
   }
 
@@ -54,19 +57,44 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
   }
 
   addPosition(ratePosition: RateCardPosition, amount: number) {
+    this.saveUserPosition(ratePosition, amount, ratePosition.name);
+  }
+
+  removePosition(position: OrderPosition) {
+    this.orderPositionService.removePosition(position).then(res => this.refreshPositions(this.orderModel));
+  }
+
+  addComplexPosition(ratePosition: RateCardPosition, amount: number) {
+    const editDialog = this.dialog.open(AddOrderPositionDialogComponent, {
+      data: {
+        initialValue: { amount: amount, position: ratePosition, additions: '' }
+      }
+    });
+    editDialog.afterClosed().subscribe(result => {
+      if (result.type === 'Ok') {
+        const dialog_result: { amount: number, position: RateCardPosition, additions: string } = result.value;
+        const position_name = dialog_result.additions.length > 0 ?
+          `${dialog_result.position.name} (${dialog_result.additions})` :
+          dialog_result.position.name;
+        this.saveUserPosition(dialog_result.position, dialog_result.amount, position_name);
+      }
+    });
+  }
+
+  saveUserPosition(ratePosition: RateCardPosition, amount: number, name: string) {
     const amountNumber = Number(amount);
     if (amountNumber === 0) {
       return;
     }
     const currentUserId = this.currentUser ? this.currentUser.id : -1;
     let orderPosition = this.orderPositions.find(
-      op => op.rateCardPositionId === ratePosition.id && op.customer.id === currentUserId);
+      op => op.rateCardPositionId === ratePosition.id && op.customer.id === currentUserId && op.name === name);
     if (orderPosition != null) {
       orderPosition.amount += amountNumber;
       this.orderPositionService.updatePosition(orderPosition).then(pos => this.refreshPositions(this.orderModel));
     } else {
       orderPosition = new OrderPosition();
-      orderPosition.name = ratePosition.name;
+      orderPosition.name = name
       orderPosition.price = ratePosition.price;
       orderPosition.rateCardPositionId = ratePosition.id;
       orderPosition.amount = amountNumber;
@@ -74,9 +102,5 @@ export class OrderPositionsEditComponent extends BaseComponent implements OnInit
 
       this.orderPositionService.addPosition(orderPosition).then(pos => this.refreshPositions(this.orderModel));
     }
-  }
-
-  removePosition(position: OrderPosition) {
-    this.orderPositionService.removePosition(position).then(res => this.refreshPositions(this.orderModel));
   }
 }
