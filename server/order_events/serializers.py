@@ -31,6 +31,13 @@ class RateCardPositionSerializer(serializers.ModelSerializer):
         model = RateCardPosition
         fields = ('id', 'name', 'price')
 
+    def to_internal_value(self, data):
+        obj = super(RateCardPositionSerializer, self).to_internal_value(data)
+        instance_id = data.get('id', None)
+        if instance_id:
+            obj['id'] = instance_id
+        return obj
+
 
 class RateCardSerializer(serializers.ModelSerializer):
     positions = RateCardPositionSerializer(many=True)
